@@ -1,0 +1,186 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using maealim.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace maealim.Data.Repositories
+{
+    public class MaealimRepository : IMaealimRepository
+    {
+        private readonly ApplicationDbContext _context;
+
+        public MaealimRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public void Add<T>(T entity) where T : class
+        {
+
+            _context.Add(entity);
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
+
+        public async Task<Bank> GetBank(int id)
+        {
+            return await _context.Banks.SingleOrDefaultAsync(b=>b.Id==id);
+        }
+
+        public async Task<IEnumerable<Bank>> GetBanks()
+        {
+            return await _context.Banks.ToListAsync();
+        }
+
+        public async Task<College> GetCollege(int id)
+        {
+            return await _context.Colleges.SingleOrDefaultAsync(c=>c.Id==id);
+        }
+
+        public async Task<IEnumerable<College>> GetColleges()
+        {
+            return await _context.Colleges.ToListAsync();
+
+        }
+
+        public async Task<IEnumerable<Continent>> GetContinents()
+        {
+            return await _context.Continents.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Country>> GetCountries()
+        {
+            return await _context.Countries.Include(d=>d.Continent).ToListAsync();
+        }
+
+        public async Task<Country> GetCountry(int id)
+        {
+            return await _context.Countries.SingleOrDefaultAsync(c=>c.Id==id);
+
+        }
+
+        public async Task<Employee> GetEmployee(int id)
+        {
+            return await _context.Employees.SingleOrDefaultAsync(s => s.Id == id);
+
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployees()
+        {
+            return await _context.Employees.Include(d=>d.User).Include(d=>d.Jop).ToListAsync();
+        }
+
+        //public async Task<EmployeeContract> GetEmployeesContract(int id)
+        //{
+        //    return await _context.EmployeeContracts.SingleOrDefaultAsync(e=>e.Id==id);
+        //}
+
+        //public async Task<IEnumerable<EmployeeContract>> GetEmployeesContracts()
+        //{
+        //    return await _context.EmployeeContracts.ToListAsync();
+        //}
+
+        public async Task<Jop> GetJop(int id)
+        {
+            return await _context.Jops.SingleOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<IEnumerable<Jop>> GetJops()
+        {
+            return await _context.Jops.ToListAsync();
+        }
+
+        public async Task<Language> GetLanguage(int id)
+        {
+            return await _context.Languages.SingleOrDefaultAsync(l=>l.Id==id);
+        }
+
+        public async Task<IEnumerable<Language>> GetLanguages()
+        {
+            return await _context.Languages.ToListAsync();
+        }
+
+        public async Task<Level> GetLevel(int id)
+        {
+            return await _context.Levels.SingleOrDefaultAsync(s=>s.Id==id);
+        }
+
+        public async Task<IEnumerable<Level>> GetLevels()
+        {
+            return await _context.Levels.ToListAsync();
+        }
+
+        public async Task<Season> GetSeason(int id)
+        {
+            return await _context.Seasons.SingleOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<IEnumerable<Season>> GetSeasons()
+        {
+            return await _context.Seasons.ToListAsync();
+        }
+
+        public async Task<Specialization> GetSpecialization(int id)
+        {
+            return await _context.Specializations.SingleOrDefaultAsync(s=>s.Id.Equals(id));
+        }
+
+        public async Task<IEnumerable<Specialization>> GetSpecializations()
+        {
+            return await _context.Specializations.ToListAsync();
+
+        }
+
+        public async Task<Stage> GetStage(int id)
+        {
+            return await _context.Stages.SingleOrDefaultAsync(s=>s.Id==id);
+        }
+
+        public async Task<IEnumerable<Stage>> GetStages()
+        {
+            return await _context.Stages.ToListAsync();
+        }
+
+        public async Task<IEnumerable<University>> GetUniversities()
+        {
+            return await _context.Universities.ToListAsync();
+        }
+
+        public async Task<University> GetUniversity(int id)
+        {
+            return await _context.Universities.SingleOrDefaultAsync(u=>u.Id==id);
+
+        }
+
+        public async Task<IEnumerable<AppUser>> GetUsers()
+        {
+        return  await _context.Users.ToListAsync();
+        }
+
+        public async Task<WorkSeason> GetWorkSeason(int id)
+        {
+            return await _context.WorkSeasons.SingleOrDefaultAsync(w=>w.Id == id);
+        }
+
+        public async Task<IEnumerable<WorkSeason>> GetWorkSeasons()
+        {
+            return await _context.WorkSeasons.Include(d=>d.Season).ToListAsync();
+        }
+
+        public async Task<bool> SavaAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public void Update<T>(T entity) where T : class
+        {
+            _context.Update(entity);
+        }
+
+
+    }
+}
