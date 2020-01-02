@@ -1,0 +1,208 @@
+﻿@model IEnumerable<maealim.Models.EmployeeContract>
+
+@{
+    ViewData["Title"] = "العقود";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> العقود </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">العقود </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <partial name="_StatusMessages"/>
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-list-alt"></i>
+                العقود
+            </h3>
+            <a asp-action="Create" class="btn  btn-primary  btn-sm text-white float-left m-0">
+                <i class="fas fa-plus-circle"></i>
+                اضافة عقد
+            </a>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.Message !=null)
+            {
+             <div class="alert alert-danger">@ViewBag.Message</div>
+            }
+        <p>@ViewBag.Message </p>
+            <div class="table-responsive">
+                <table class="table tab-content table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Employee.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Season)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Jop)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DailyWorkingHours)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.HourlyPay)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Extra)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FromDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ToDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            int i = 1;
+
+                            @foreach (var item in Model)
+                            {
+                        <tr>
+                            <th>@i</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Employee.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Season.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Jop.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DailyWorkingHours)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.HourlyPay)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Extra)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FromDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ToDate)
+                            </td>
+                            <td>
+                                @if (item.Status)
+                                {
+                                    @:نشط
+                                }
+                                else
+                                {
+                                    @:غير نشط
+                                }
+                            </td>
+
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <form asp-action="Delete" asp-route-id="@item.Id">
+                                        <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                                            <span>هل تريد الحذف ؟</span>
+                                            <button type="submit" class="btn btn-danger">نعم</button>
+                                            <a href="#" class="btn btn-primary"
+                                               onclick="confirmDelete('@item.Id', false)">لا</a>
+                                        </span>
+                                        <span id="deleteSpan_@item.Id">
+                                            <a href="#" class="btn btn-danger  "
+                                               onclick="confirmDelete('@item.Id', true)">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </span>
+                                    </form>
+                                    @if (item.Status)
+                                    {
+                                        <form asp-action="CancelContract" asp-route-id="@item.Id">
+
+                                            <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
+                                                <span>هل تريد الغاء العقد ؟</span>
+                                                <button type="submit" class="btn btn-danger">نعم</button>
+                                                <a href="#" class="btn btn-primary"
+                                                   onclick="confirmDelete('c_@item.Id', false)">لا</a>
+                                            </span>
+                                            <span id="deleteSpan_c_@item.Id">
+                                                <a href="#" class="btn btn-warning  mr-1"
+                                                   onclick="confirmDelete('c_@item.Id', true)">
+                                                    <i class="fas fa-ban"></i>
+                                                </a>
+                                            </span>
+                                        </form>
+
+                                    }
+                                    else
+                                    {
+                                        <form asp-action="CancelContract" asp-route-id="@item.Id">
+
+                                            <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
+                                                <span>هل تريد اعادة تنشيط العقد ؟</span>
+                                                <button type="submit" class="btn btn-danger">نعم</button>
+                                                <a href="#" class="btn btn-primary"
+                                                    onclick="confirmDelete('c_@item.Id', false)">لا</a>
+                                            </span>
+                                            <span id="deleteSpan_c_@item.Id">
+                                                <a href="#" class="btn btn-info  mr-1"
+                                                    onclick="confirmDelete('c_@item.Id', true)">
+                                                    <i class="fas fa-sync-alt"></i>
+                                                </a>
+                                            </span>
+                                        </form>
+                                    }
+
+                                </div>
+                            </td>
+                        </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="11">لاتوجد عقود</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

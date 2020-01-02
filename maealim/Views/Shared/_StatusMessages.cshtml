@@ -1,0 +1,49 @@
+﻿
+
+@{
+    var type = (string)TempData["_alert.type"];
+    var title = (string)TempData["_alert.title"];
+    var body = (string)TempData["_alert.body"];
+}
+
+<style>
+    .alert-danger {
+        color: #721c24 !important;
+        background-color: #f8d7da !important;
+        border-color: #f5c6cb !important;
+    }
+
+    .alert-warning {
+        color: #856404 !important;
+        background-color: #fff3cd !important;
+        border-color: #ffeeba !important;
+    }
+
+    .alert-success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+</style>
+<div class="alert-container">
+
+    @if (!string.IsNullOrEmpty(type))
+    {
+        <div class="alert alert-@type alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>
+                @if (title == "success")
+                {
+                    <i class='far fa-check-square'></i>
+
+                }
+                @if (title == "danger")
+                {
+            <i class="fas fa-exclamation-triangle"></i>
+
+                }
+            </strong>
+            @body
+        </div>
+    }
+</div>

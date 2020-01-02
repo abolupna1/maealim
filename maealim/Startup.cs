@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using maealim.Data.Repositories;
 using AutoMapper;
 
+
 namespace maealim
 {
     public class Startup
@@ -40,6 +41,8 @@ namespace maealim
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+           
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -58,6 +61,9 @@ namespace maealim
             }).AddDefaultUI(UIFramework.Bootstrap4)
                .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
+
+
             services.AddMvc(
                 options => {
                     var policy = new AuthorizationPolicyBuilder()
@@ -68,6 +74,7 @@ namespace maealim
 
                 }
                 ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,16 +95,17 @@ namespace maealim
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+         
 
             app.UseAuthentication();
-
+          
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseCookiePolicy();
             DummyData.Initialize(dbContext, userManager, roleManager).Wait();
             SeedData.Initialize(dbContext).Wait();
 

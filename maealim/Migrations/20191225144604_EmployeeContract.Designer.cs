@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191225144604_EmployeeContract")]
+    partial class EmployeeContract
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,8 +291,6 @@ namespace maealim.Migrations
 
                     b.Property<int>("DailyWorkingHours");
 
-                    b.Property<int>("EmployeeId");
-
                     b.Property<float>("Extra");
 
                     b.Property<DateTime>("FromDate");
@@ -306,8 +306,6 @@ namespace maealim.Migrations
                     b.Property<DateTime>("ToDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("JopId");
 
@@ -509,11 +507,6 @@ namespace maealim.Migrations
 
             modelBuilder.Entity("maealim.Models.EmployeeContract", b =>
                 {
-                    b.HasOne("maealim.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("maealim.Models.Jop", "Jop")
                         .WithMany()
                         .HasForeignKey("JopId")

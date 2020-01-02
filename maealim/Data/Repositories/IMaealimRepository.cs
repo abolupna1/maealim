@@ -42,7 +42,10 @@ namespace maealim.Data.Repositories
         Task<Language> GetLanguage(int id);
         Task<IEnumerable<Specialization>> GetSpecializations();
         Task<Specialization> GetSpecialization(int id);
-        //Task<IEnumerable<EmployeeConGetCountriestract>> GetEmployeesContracts();
-        //Task<EmployeeContract> GetEmployeesContract(int id);
+        Task<IEnumerable<EmployeeContract>> GetEmployeeContracts();
+        Task<EmployeeContract> GetEmployeeContract(int id);
+
+        Task<bool> IsEemployeeHasContractActive(int employeeId);
+        Task<bool> IsEemployeeHasContractActive(int id,int employeeId);
     }
 }

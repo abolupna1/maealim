@@ -74,15 +74,19 @@ namespace maealim.Data.Repositories
             return await _context.Employees.Include(d=>d.User).Include(d=>d.Jop).ToListAsync();
         }
 
-        //public async Task<EmployeeContract> GetEmployeesContract(int id)
-        //{
-        //    return await _context.EmployeeContracts.SingleOrDefaultAsync(e=>e.Id==id);
-        //}
+        public async Task<EmployeeContract> GetEmployeeContract(int id)
+        {
+            return await _context.EmployeeContracts.SingleOrDefaultAsync(e => e.Id == id);
+        }
 
-        //public async Task<IEnumerable<EmployeeContract>> GetEmployeesContracts()
-        //{
-        //    return await _context.EmployeeContracts.ToListAsync();
-        //}
+        public async Task<IEnumerable<EmployeeContract>> GetEmployeeContracts()
+        {
+            return await _context.EmployeeContracts
+                  .Include(d => d.Employee)
+                .Include(d => d.Season)
+                .Include(d => d.Jop)
+                .ToListAsync();
+        }
 
         public async Task<Jop> GetJop(int id)
         {
@@ -181,6 +185,26 @@ namespace maealim.Data.Repositories
             _context.Update(entity);
         }
 
+        public async Task<bool> IsEemployeeHasContractActive(int employeeId)
+        {
+            return await _context.EmployeeContracts.AnyAsync(e=>e.EmployeeId==employeeId&&e.Status==true);
+        }
 
+        public async Task<bool> IsEemployeeHasContractActive(int id, int employeeId)
+        {
+            var contract =  await _context.EmployeeContracts.SingleOrDefaultAsync(d=>d.Id==id);
+            if (contract.EmployeeId == employeeId)
+            {
+                var contractCheck = await _context.EmployeeContracts.
+                    AnyAsync(e =>e.Id != id && e.EmployeeId == employeeId && e.Status == true);
+                return contractCheck;
+            }
+            else
+            {
+                var contractCheck = await _context.EmployeeContracts.
+                    AnyAsync(e => e.Id != id && e.EmployeeId == employeeId && e.Status == true);
+                return contractCheck;
+            }
+        }
     }
 }
