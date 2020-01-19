@@ -206,5 +206,64 @@ namespace maealim.Data.Repositories
                 return contractCheck;
             }
         }
+
+        public async Task<IEnumerable<MGuide>> GetGuides()
+        {
+            return await _context.MGuides
+                .Include(d=>d.AppUser)
+                .Include(d=>d.Bank)
+                .Include(d=>d.College)
+                .Include(d=>d.Country)
+                .Include(d=>d.Language)
+                .Include(d=>d.Level)
+                .Include(d=>d.Specialization)
+                .Include(d=>d.Stage)
+                .Include(d=>d.University)
+                .ToListAsync();
+        }
+
+        public async Task<MGuide> GetGuide(int id)
+        {
+            return await _context.MGuides.SingleOrDefaultAsync(d=>d.Id==id);
+        }
+
+        public async Task<IEnumerable<GuideContract>> GetGuideContracts()
+        {
+            return await _context.GuideContracts
+                .Include(g=>g.Guide)
+                .Include(g => g.Jop)
+                .Include(g => g.Season)
+                .ToListAsync();
+        }
+
+        public async Task<bool> IsGuideHasContractActive(int id, int guideId)
+        {
+            var contract = await _context.GuideContracts.SingleOrDefaultAsync(d => d.Id == id);
+            
+            if (contract.GuideId == guideId)
+            {
+                var contractCheck = await _context.GuideContracts.
+                    AnyAsync(e => e.Id != id && e.GuideId == guideId && e.Status == true);
+                return contractCheck;
+            }
+            else
+            {
+                var contractCheck = await _context.GuideContracts.
+                    AnyAsync(e => e.Id != id && e.GuideId == guideId && e.Status == true);
+                return contractCheck;
+            }
+       
+        }
+
+        public async Task<GuideContract> GetGuideContract(int id)
+        {
+            return await _context.GuideContracts.SingleOrDefaultAsync(c=>c.Id==id);
+        }
+
+        public async Task<bool> IsGuideHasContractActive(int guideId)
+        {
+            return await _context.GuideContracts.AnyAsync(e => e.GuideId == guideId && e.Status == true);
+
+        }
     }
 }

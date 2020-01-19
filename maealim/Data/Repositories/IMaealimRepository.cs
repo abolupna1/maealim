@@ -47,5 +47,14 @@ namespace maealim.Data.Repositories
 
         Task<bool> IsEemployeeHasContractActive(int employeeId);
         Task<bool> IsEemployeeHasContractActive(int id,int employeeId);
+        Task<IEnumerable<MGuide>> GetGuides();
+        Task<MGuide> GetGuide(int id);
+
+        Task<IEnumerable<GuideContract>> GetGuideContracts();
+        Task<GuideContract> GetGuideContract(int id);
+        Task<bool> IsGuideHasContractActive( int guideId);
+        Task<bool> IsGuideHasContractActive(int id, int guideId);
+
+        
     }
 }

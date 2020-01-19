@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200112144433_MGuideUpdate")]
+    partial class MGuideUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,45 +318,6 @@ namespace maealim.Migrations
                     b.ToTable("EmployeeContracts");
                 });
 
-            modelBuilder.Entity("maealim.Models.GuideContract", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("DailyWorkingHours");
-
-                    b.Property<float>("Extra");
-
-                    b.Property<DateTime>("FromDate");
-
-                    b.Property<int?>("GuideContractId");
-
-                    b.Property<int>("GuideId");
-
-                    b.Property<float>("HourlyPay");
-
-                    b.Property<int>("JopId");
-
-                    b.Property<int>("SeasonId");
-
-                    b.Property<bool>("Status");
-
-                    b.Property<DateTime>("ToDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuideContractId");
-
-                    b.HasIndex("GuideId");
-
-                    b.HasIndex("JopId");
-
-                    b.HasIndex("SeasonId");
-
-                    b.ToTable("GuideContracts");
-                });
-
             modelBuilder.Entity("maealim.Models.Jop", b =>
                 {
                     b.Property<int>("Id")
@@ -603,40 +566,17 @@ namespace maealim.Migrations
             modelBuilder.Entity("maealim.Models.EmployeeContract", b =>
                 {
                     b.HasOne("maealim.Models.Employee", "Employee")
-                        .WithMany("EmployeeContracts")
+                        .WithMany()
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Jop", "Jop")
-                        .WithMany("EmployeeContracts")
-                        .HasForeignKey("JopId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.Season", "Season")
-                        .WithMany("EmployeeContracts")
-                        .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.GuideContract", b =>
-                {
-                    b.HasOne("maealim.Models.GuideContract")
-                        .WithMany("GuideContracts")
-                        .HasForeignKey("GuideContractId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.MGuide", "Guide")
                         .WithMany()
-                        .HasForeignKey("GuideId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.Jop", "Jop")
-                        .WithMany("GuideContracts")
                         .HasForeignKey("JopId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Season", "Season")
-                        .WithMany("GuideContracts")
+                        .WithMany()
                         .HasForeignKey("SeasonId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

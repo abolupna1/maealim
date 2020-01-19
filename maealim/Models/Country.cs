@@ -21,6 +21,6 @@ namespace maealim.Models
         [Display(Name = "الحالة "), Required(ErrorMessage = "{0} مطلوب")]
         public bool Status { get; set; } // اظهار / مخفي
 
-        public IEnumerable<Guide> Guides { get; set; }
+        public IEnumerable<MGuide> MGuides { get; set; }
     }
 }

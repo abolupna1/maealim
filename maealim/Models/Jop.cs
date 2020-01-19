@@ -15,5 +15,7 @@ namespace maealim.Models
         public string Name { get; set; }
 
         public IEnumerable<Employee> Employees { get; set; }
+        public IEnumerable<EmployeeContract> EmployeeContracts { get; set; }
+        public IEnumerable<GuideContract> GuideContracts { get; set; }
     }
 }

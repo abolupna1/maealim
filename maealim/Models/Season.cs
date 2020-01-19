@@ -12,5 +12,8 @@ namespace maealim.Models
 
         [Display(Name = "الموسم"), Required(ErrorMessage = "{0} مطلوب")]
         public string Name { get; set; }
+
+        public IEnumerable<EmployeeContract> EmployeeContracts { get; set; }
+        public IEnumerable<GuideContract> GuideContracts { get; set; }
     }
 }

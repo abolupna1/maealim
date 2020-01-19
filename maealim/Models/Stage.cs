@@ -13,7 +13,7 @@ namespace maealim.Models
         [Display(Name = "المرحلة"), MaxLength(100, ErrorMessage = "{0} طول النص 100 فقط"),
             MinLength(3, ErrorMessage = "{0} طول النص على الاقل  3 احرف "), Required(ErrorMessage = "{0} مطلوب")]
         public string Name { get; set; }
-        public IEnumerable<Guide> Guides { get; set; }
+        public IEnumerable<MGuide> MGuides { get; set; }
 
     }
 }

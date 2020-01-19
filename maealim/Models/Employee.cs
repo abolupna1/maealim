@@ -40,6 +40,6 @@ namespace maealim.Models
         [Display(Name = "المستخدم "), ForeignKey("UserId")]
         public AppUser User { get; set; }
 
-        //public IEnumerable<EmployeeContract> EmployeeContracts { get; set; }
+        public IEnumerable<EmployeeContract> EmployeeContracts { get; set; }
     }
 }

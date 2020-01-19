@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace maealim.Migrations
 {
-    public partial class Guide : Migration
+    public partial class MGuide : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Guides",
+                name: "MGuides",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -27,57 +27,57 @@ namespace maealim.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Guides", x => x.Id);
+                    table.PrimaryKey("PK_MGuides", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Guides_AspNetUsers_AppUserId",
+                        name: "FK_MGuides_AspNetUsers_AppUserId",
                         column: x => x.AppUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Banks_BankId",
+                        name: "FK_MGuides_Banks_BankId",
                         column: x => x.BankId,
                         principalTable: "Banks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Colleges_CollegeId",
+                        name: "FK_MGuides_Colleges_CollegeId",
                         column: x => x.CollegeId,
                         principalTable: "Colleges",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Countries_CountryId",
+                        name: "FK_MGuides_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Languages_LanguageId",
+                        name: "FK_MGuides_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Levels_LevelId",
+                        name: "FK_MGuides_Levels_LevelId",
                         column: x => x.LevelId,
                         principalTable: "Levels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Specializations_SpecializationId",
+                        name: "FK_MGuides_Specializations_SpecializationId",
                         column: x => x.SpecializationId,
                         principalTable: "Specializations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Stages_StageId",
+                        name: "FK_MGuides_Stages_StageId",
                         column: x => x.StageId,
                         principalTable: "Stages",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Guides_Universities_UniversityId",
+                        name: "FK_MGuides_Universities_UniversityId",
                         column: x => x.UniversityId,
                         principalTable: "Universities",
                         principalColumn: "Id",
@@ -85,55 +85,55 @@ namespace maealim.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_AppUserId",
-                table: "Guides",
+                name: "IX_MGuides_AppUserId",
+                table: "MGuides",
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_BankId",
-                table: "Guides",
+                name: "IX_MGuides_BankId",
+                table: "MGuides",
                 column: "BankId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_CollegeId",
-                table: "Guides",
+                name: "IX_MGuides_CollegeId",
+                table: "MGuides",
                 column: "CollegeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_CountryId",
-                table: "Guides",
+                name: "IX_MGuides_CountryId",
+                table: "MGuides",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_LanguageId",
-                table: "Guides",
+                name: "IX_MGuides_LanguageId",
+                table: "MGuides",
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_LevelId",
-                table: "Guides",
+                name: "IX_MGuides_LevelId",
+                table: "MGuides",
                 column: "LevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_SpecializationId",
-                table: "Guides",
+                name: "IX_MGuides_SpecializationId",
+                table: "MGuides",
                 column: "SpecializationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_StageId",
-                table: "Guides",
+                name: "IX_MGuides_StageId",
+                table: "MGuides",
                 column: "StageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Guides_UniversityId",
-                table: "Guides",
+                name: "IX_MGuides_UniversityId",
+                table: "MGuides",
                 column: "UniversityId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Guides");
+                name: "MGuides");
         }
     }
 }

@@ -10,8 +10,8 @@ using maealim.Data;
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200102160714_Guide")]
-    partial class Guide
+    [Migration("20200112142201_MGuide")]
+    partial class MGuide
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -318,7 +318,52 @@ namespace maealim.Migrations
                     b.ToTable("EmployeeContracts");
                 });
 
-            modelBuilder.Entity("maealim.Models.Guide", b =>
+            modelBuilder.Entity("maealim.Models.Jop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Jops");
+                });
+
+            modelBuilder.Entity("maealim.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("maealim.Models.Level", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Levels");
+                });
+
+            modelBuilder.Entity("maealim.Models.MGuide", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -366,52 +411,7 @@ namespace maealim.Migrations
 
                     b.HasIndex("UniversityId");
 
-                    b.ToTable("Guides");
-                });
-
-            modelBuilder.Entity("maealim.Models.Jop", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Jops");
-                });
-
-            modelBuilder.Entity("maealim.Models.Language", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Languages");
-                });
-
-            modelBuilder.Entity("maealim.Models.Level", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Levels");
+                    b.ToTable("MGuides");
                 });
 
             modelBuilder.Entity("maealim.Models.Season", b =>
@@ -578,7 +578,7 @@ namespace maealim.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("maealim.Models.Guide", b =>
+            modelBuilder.Entity("maealim.Models.MGuide", b =>
                 {
                     b.HasOne("maealim.Models.AppUser", "AppUser")
                         .WithMany()
@@ -586,42 +586,42 @@ namespace maealim.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Bank", "Bank")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("BankId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.College", "College")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("CollegeId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Country", "Country")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Language", "Language")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Level", "Level")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Specialization", "Specialization")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("SpecializationId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.Stage", "Stage")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("StageId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("maealim.Models.University", "University")
-                        .WithMany("Guides")
+                        .WithMany("MGuides")
                         .HasForeignKey("UniversityId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

@@ -1,0 +1,143 @@
+﻿@model maealim.Models.MGuide
+
+
+@{
+    ViewData["Title"] = " اضافة ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> المرشدين </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="Banks" asp-action="Index">المرشدين</a></li>
+                    <li class="breadcrumb-item active">اضافة مرشد </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                اضافة مرشد
+            </h3>
+
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="CountryId" class="control-label"></label>
+                        <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="CountryId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="BankId" class="control-label"></label>
+                        <select asp-for="BankId" class="form-control" asp-items="ViewBag.BankId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="BankId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="UniversityId" class="control-label"></label>
+                        <select asp-for="UniversityId" class="form-control" asp-items="ViewBag.UniversityId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="UniversityId" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="StageId" class="control-label"></label>
+                        <select asp-for="StageId" class="form-control" asp-items="ViewBag.StageId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="StageId" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="LevelId" class="control-label"></label>
+                        <select asp-for="LevelId" class="form-control" asp-items="ViewBag.LevelId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="LevelId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="LanguageId" class="control-label"></label>
+                        <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.LanguageId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="LanguageId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="SpecializationId" class="control-label"></label>
+                        <select asp-for="SpecializationId" class="form-control" asp-items="ViewBag.SpecializationId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="SpecializationId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="AppUserId" class="control-label"></label>
+                        <select asp-for="AppUserId" class="form-control" asp-items="ViewBag.AppUserId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="AppUserId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="CollegeId" class="control-label"></label>
+                        <select asp-for="CollegeId" class="form-control" asp-items="ViewBag.CollegeId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="CollegeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="Mobile" class="control-label"></label>
+                        <input asp-for="Mobile" class="form-control" />
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

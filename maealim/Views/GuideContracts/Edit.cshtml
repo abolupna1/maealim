@@ -1,0 +1,134 @@
+﻿@model maealim.Models.GuideContract
+
+@{
+    ViewData["Title"] = "تعديل";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>العقود</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="EmployeeContracts" asp-action="Index"> العقود </a></li>
+                    <li class="breadcrumb-item active">      تعديل عقد </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <partial name="_StatusMessages" />
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-edit"></i>
+                تعديل عقد
+            </h3>
+
+        </div>
+        <div class="card-body">
+
+
+            <form asp-action="Edit">
+                <div class="form-row">
+                    <input asp-for="Id" type="hidden" hidden />
+                    <div class="form-group col-md-6">
+                        <label asp-for="GuideId" class="control-label"></label>
+                        <select asp-for="GuideId" class="form-control" asp-items="ViewBag.GuideId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="GuideId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="SeasonId" class="control-label"></label>
+                        <select asp-for="SeasonId" class="form-control" asp-items="ViewBag.SeasonId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="SeasonId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="JopId" class="control-label"></label>
+                        <select asp-for="JopId" class="form-control" asp-items="ViewBag.JopId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                        <span asp-validation-for="JopId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="DailyWorkingHours" class="control-label"></label>
+                        <input type="text" asp-for="DailyWorkingHours" class="form-control" />
+                        <span asp-validation-for="DailyWorkingHours" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="HourlyPay" class="control-label"></label>
+                        <input type="text" asp-for="HourlyPay" class="form-control" />
+                        <span asp-validation-for="HourlyPay" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label asp-for="Extra" class="control-label"></label>
+                        <input type="text" asp-for="Extra" class="form-control" />
+                        <span asp-validation-for="Extra" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="FromDate " class="control-label"></label>
+                        <input type="text" asp-for="FromDate" class="form-control" />
+                        <span asp-validation-for="FromDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label asp-for="ToDate" class="control-label"></label>
+                        <input type="text" asp-for="ToDate" class="form-control" />
+                        <span asp-validation-for="ToDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check col-md-2">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control">
+                            <option value="">الرجاء الإختيار</option>
+                            <option value="True">نشط</option>
+                            <option value="False">غير نشط</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+              $(function() {
+               $("#FromDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+               $("#ToDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+       });
+        });
+    </script>
+}
+
+

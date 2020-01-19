@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace maealim.Models
 {
-    public class Guide
+    public class MGuide
     {
         public int Id { get; set; }
+        [Display(Name = "الاسم"), Required(ErrorMessage = "{0} مطلوب")]
+        public string Name { get; set; }
+
         [Display(Name = "الجنسية")]
         public int? CountryId { get; set; }
         [ForeignKey("CountryId"), Display(Name = " الجنسية   ")]

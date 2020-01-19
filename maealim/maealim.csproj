@@ -25,6 +25,14 @@
     <Compile Remove="Migrations\20191201143743_workSeasons.Designer.cs" />
     <Compile Remove="Migrations\20191217150657_College.cs" />
     <Compile Remove="Migrations\20191217150657_College.Designer.cs" />
+    <Compile Remove="Migrations\20200102160714_Guide.cs" />
+    <Compile Remove="Migrations\20200102160714_Guide.Designer.cs" />
+    <Compile Remove="Migrations\20200119140004_GuideContract.cs" />
+    <Compile Remove="Migrations\20200119140004_GuideContract.Designer.cs" />
+    <Compile Remove="Migrations\20200119140051_GuideContract.cs" />
+    <Compile Remove="Migrations\20200119140051_GuideContract.Designer.cs" />
+    <Compile Remove="Migrations\20200119140229_GuideContract.cs" />
+    <Compile Remove="Migrations\20200119140229_GuideContract.Designer.cs" />
   </ItemGroup>
 
 

@@ -58,7 +58,8 @@ namespace maealim.Data
         public DbSet<Level> Levels { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
-        public DbSet<Guide> Guides { get; set; }
+        public DbSet<MGuide> MGuides { get; set; }
+        public DbSet<GuideContract> GuideContracts { get; set; }
 
         
     }
