@@ -265,5 +265,15 @@ namespace maealim.Data.Repositories
             return await _context.GuideContracts.AnyAsync(e => e.GuideId == guideId && e.Status == true);
 
         }
+
+        public async Task<IEnumerable<TypeOfProduct>> GetTypeOfProducts()
+        {
+            return await _context.TypeOfProducts.ToListAsync();
+        }
+
+        public async Task<TypeOfProduct> GetTypeOfProduct(int id)
+        {
+            return await _context.TypeOfProducts.SingleOrDefaultAsync(d=>d.Id==id);
+        }
     }
 }

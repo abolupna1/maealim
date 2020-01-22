@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace maealim.Data
 {
    
@@ -60,6 +61,7 @@ namespace maealim.Data
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<MGuide> MGuides { get; set; }
         public DbSet<GuideContract> GuideContracts { get; set; }
+        public DbSet<TypeOfProduct> TypeOfProducts { get; set; }
 
         
     }

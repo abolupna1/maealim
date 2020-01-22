@@ -55,6 +55,9 @@ namespace maealim.Data.Repositories
         Task<bool> IsGuideHasContractActive( int guideId);
         Task<bool> IsGuideHasContractActive(int id, int guideId);
 
-        
+
+        Task<IEnumerable<TypeOfProduct>> GetTypeOfProducts();
+        Task<TypeOfProduct> GetTypeOfProduct(int id);
+
     }
 }

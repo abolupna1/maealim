@@ -217,13 +217,17 @@ ul {
 }
 
 /*---------------------------------- Persian Date Picker ---------------------------------- */
-
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+    color: #fff;
+    background-color: #008B8B;
+}
+.brand-link {
+    background-color: #008b8b !important;
+    color: white !important;
+}
 .datepicker-plot-area {
     font-family: 'Vazir', sans-serif;
 }
 
 
-.brand-link {
-    background-color: #c39610a8 !important;
-    color: white !important;
-}
+
