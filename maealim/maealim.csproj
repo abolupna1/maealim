@@ -33,6 +33,10 @@
     <Compile Remove="Migrations\20200119140051_GuideContract.Designer.cs" />
     <Compile Remove="Migrations\20200119140229_GuideContract.cs" />
     <Compile Remove="Migrations\20200119140229_GuideContract.Designer.cs" />
+    <Compile Remove="Migrations\20200122150530_ItemExport.cs" />
+    <Compile Remove="Migrations\20200122150530_ItemExport.Designer.cs" />
+    <Compile Remove="Migrations\20200122155507_ItemImport.cs" />
+    <Compile Remove="Migrations\20200122155507_ItemImport.Designer.cs" />
   </ItemGroup>
 
 
@@ -45,6 +49,10 @@
 
 
   <ItemGroup>
+    <Content Update="Views\ItemImports\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Views\TypeOfProducts\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

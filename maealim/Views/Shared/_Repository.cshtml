@@ -13,9 +13,55 @@
                 <p>أنواع الأصناف</p>
             </a>
         </li>
-   
 
-        
+        <li class="nav-item">
+            <a asp-controller="ItemOfProducts" asp-action="Index" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p> الأصناف</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a asp-controller="ItemExports" asp-action="Index" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p> اذنونات الصرف</p>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a asp-controller="ItemImports" asp-action="Index" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p> اذنونات التوريد</p>
+            </a>
+        </li>
+
+
+
+    </ul>
+
+</li>
+
+<li class="nav-item has-treeview">
+    <a href="#" class="nav-link active">
+        <i class="nav-icon fas fa-box"></i>
+        <p>
+             الهدايا
+            <i class="right fas fa-angle-left"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview" style="display: none;">
+        <li class="nav-item">
+            <a asp-controller="TypeOfProducts" asp-action="Index" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p> الهدايا</p>
+            </a>
+        </li>
+
+
+       
+
+
+
     </ul>
 
 </li>

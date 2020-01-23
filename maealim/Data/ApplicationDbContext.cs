@@ -62,7 +62,10 @@ namespace maealim.Data
         public DbSet<MGuide> MGuides { get; set; }
         public DbSet<GuideContract> GuideContracts { get; set; }
         public DbSet<TypeOfProduct> TypeOfProducts { get; set; }
-
+        public DbSet<ItemOfProduct> ItemOfProducts { get; set; }
+        public DbSet<ItemExport> ItemExports { get; set; }
+        public DbSet<ItemImport> ItemImports { get; set; }
         
+
     }
 }

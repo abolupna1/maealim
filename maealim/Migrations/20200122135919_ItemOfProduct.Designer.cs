@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200122135919_ItemOfProduct")]
+    partial class ItemOfProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -355,56 +357,6 @@ namespace maealim.Migrations
                     b.ToTable("GuideContracts");
                 });
 
-            modelBuilder.Entity("maealim.Models.ItemExport", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int?>("ItemOfProductId")
-                        .IsRequired();
-
-                    b.Property<string>("Notce");
-
-                    b.Property<int>("Qty");
-
-                    b.Property<string>("Recipient")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemOfProductId");
-
-                    b.ToTable("ItemExports");
-                });
-
-            modelBuilder.Entity("maealim.Models.ItemImport", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int?>("ItemOfProductId")
-                        .IsRequired();
-
-                    b.Property<string>("Notce");
-
-                    b.Property<int>("Qty");
-
-                    b.Property<string>("Supplier")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemOfProductId");
-
-                    b.ToTable("ItemImports");
-                });
-
             modelBuilder.Entity("maealim.Models.ItemOfProduct", b =>
                 {
                     b.Property<int>("Id")
@@ -415,8 +367,7 @@ namespace maealim.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int?>("TypeOfProductId")
-                        .IsRequired();
+                    b.Property<int>("TypeOfProductId");
 
                     b.HasKey("Id");
 
@@ -723,22 +674,6 @@ namespace maealim.Migrations
                     b.HasOne("maealim.Models.Season", "Season")
                         .WithMany("GuideContracts")
                         .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.ItemExport", b =>
-                {
-                    b.HasOne("maealim.Models.ItemOfProduct", "ItemOfProduct")
-                        .WithMany()
-                        .HasForeignKey("ItemOfProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.ItemImport", b =>
-                {
-                    b.HasOne("maealim.Models.ItemOfProduct", "ItemOfProduct")
-                        .WithMany()
-                        .HasForeignKey("ItemOfProductId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

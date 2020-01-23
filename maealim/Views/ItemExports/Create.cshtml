@@ -1,0 +1,105 @@
+﻿@model maealim.Models.ItemExport
+
+@{
+    ViewData["Title"] = "اضافة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ 
+    int ItemOfProductId = ViewBag.ItemOfProductId;
+    string ItemOfProductName = ViewBag.ItemOfProductName;
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>اذونات الصرف</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="ItemExports" asp-action="Index"> اذونات الصرف </a></li>
+                    <li class="breadcrumb-item "><a asp-controller="ItemExports" asp-action="Items">  الأصناف </a></li>
+                    <li class="breadcrumb-item active">      اضافة اذن صرف </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus-circle"></i>
+                اضافة اذن صرف
+            </h3>
+
+        </div>
+        <div class="card-body">
+
+            <partial name="_StatusMessages" />
+            <form asp-action="Create">
+
+                <div class="form-group">
+                    <label asp-for="ItemOfProductId" class="control-label"></label>
+                    <input hidden asp-for="ItemOfProductId" value="@ItemOfProductId" type="text" class="form-control" />
+                    <input readonly value="@ItemOfProductName" type="text" class="form-control" />
+                    <span asp-validation-for="ItemOfProductId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" type="text" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Qty" class="control-label"></label>
+                    <input asp-for="Qty" type="text" class="form-control" />
+                    <span asp-validation-for="Qty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Recipient" class="control-label"></label>
+                    <input asp-for="Recipient" class="form-control" />
+                    <span asp-validation-for="Recipient" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notce" class="control-label"></label>
+                    <input asp-for="Notce" class="form-control" />
+                    <span asp-validation-for="Notce" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+              $(function() {
+               $("#Date").datepicker({ dateFormat: "yy-mm-dd" }).val()
+       });
+        });
+    </script>
+}
+
+

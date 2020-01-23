@@ -59,5 +59,15 @@ namespace maealim.Data.Repositories
         Task<IEnumerable<TypeOfProduct>> GetTypeOfProducts();
         Task<TypeOfProduct> GetTypeOfProduct(int id);
 
+        Task<IEnumerable<ItemOfProduct>> GetItemOfProducts();
+        Task<ItemOfProduct> GetItemOfProduct(int id);
+
+        Task<IEnumerable<ItemExport>> GetItemExports();
+        Task<ItemExport> GetItemExport(int id);
+
+        Task<IEnumerable<ItemImport>> GetItemImports();
+        Task<ItemImport> GetItemImport(int id);
+        Task<bool> CheckIfImportsEqualExport(int itemOfProductId,int qty);
+
     }
 }

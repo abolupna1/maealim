@@ -275,5 +275,63 @@ namespace maealim.Data.Repositories
         {
             return await _context.TypeOfProducts.SingleOrDefaultAsync(d=>d.Id==id);
         }
+
+        public async Task<IEnumerable<ItemOfProduct>> GetItemOfProducts()
+        {
+            return await _context.ItemOfProducts
+                .Include(i=>i.ItemExports)
+                .Include(i=>i.ItemImports)
+                .ToListAsync();
+        }
+
+        public async Task<ItemOfProduct> GetItemOfProduct(int id)
+        {
+            return await _context.ItemOfProducts
+                .Include(d=>d.TypeOfProduct)
+                 .Include(i => i.ItemExports)
+                .Include(i => i.ItemImports)
+                .SingleOrDefaultAsync(f=>f.Id==id);
+        }
+
+        public async Task<IEnumerable<ItemExport>> GetItemExports()
+        {
+            return await _context.ItemExports.ToListAsync();
+        }
+
+        public async Task<ItemExport> GetItemExport(int id)
+        {
+            return await _context.ItemExports
+                .Include(d=>d.ItemOfProduct)
+                .SingleOrDefaultAsync(s=>s.Id==id);
+        }
+
+        public async Task<IEnumerable<ItemImport>> GetItemImports()
+        {
+            return await _context.ItemImports.ToListAsync();
+        }
+
+        public async Task<ItemImport> GetItemImport(int id)
+        {
+            return await _context.ItemImports
+                .Include(f=>f.ItemOfProduct)
+                .SingleOrDefaultAsync(a=>a.Id==id);
+
+        }
+
+        public async Task<bool> CheckIfImportsEqualExport(int itemOfProductId,int qty)
+        {
+            var item =await GetItemOfProduct(itemOfProductId);
+            if (item != null)
+            {
+                int import = item.ItemImports.Sum(g => g.Qty);
+                int export = item.ItemExports.Sum(g => g.Qty);
+                if (import <= export+qty)
+                {
+                    return true;
+                }
+              
+            }
+            return false;
+        }
     }
 }
