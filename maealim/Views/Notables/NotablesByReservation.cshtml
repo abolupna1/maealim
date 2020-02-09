@@ -1,0 +1,170 @@
+﻿@model maealim.Models.GuestReservation
+
+
+@{
+    ViewData["Title"] = " الوجهاء ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int guestReservationId = ViewBag.guestReservationId;
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> الوجهاء </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="GuestReservations"  asp-action="Index"> الحجوزات </a></li>
+                    <li class="breadcrumb-item active">الوجهاء </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <partial name="_StatusMessages" />
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-list-alt"></i>
+                الوجهاء
+            </h3>
+            <a asp-action="Create" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left m-0">
+                <i class="fas fa-plus-circle"></i>
+                اضافة وجيه
+            </a>
+            @if (Model.Gifts.Any())
+            {
+                <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
+                    <i class="fas fa-plus-circle"></i>
+                    الهداية
+                </a>
+            }
+            else
+            {
+                <a asp-action="Edit" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
+                    <i class="fas fa-edit"></i>
+                    الهداية
+                </a>
+            }
+
+        </div>
+        <div class="card-body">
+
+            <partial name="_Details" model="Model" view-data="ViewData" />
+            <div class="table-responsive">
+                <table class="table tab-content table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().GuestReservation)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().Country)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().JobNotable)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().MobileInMyCountry)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Notables.FirstOrDefault().MobileInSaudi)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Notables.Any())
+                        {
+                            int i = 1;
+
+                            @foreach (var item in Model.Notables)
+                            {
+                                <tr>
+                                    <th>@i</th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.GuestReservation.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Country.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobNotable.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MobileInMyCountry)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MobileInSaudi)
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+
+                                            <form asp-action="Delete" asp-route-id="@item.Id">
+                                                <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                                                    <span>هل تريد الحذف ؟</span>
+                                                    <button type="submit" class="btn btn-danger">نعم</button>
+                                                    <a href="#" class="btn btn-primary"
+                                                       onclick="confirmDelete('@item.Id', false)">لا</a>
+                                                </span>
+                                                <span id="deleteSpan_@item.Id">
+                                                    <a href="#" class="btn btn-danger"
+                                                       onclick="confirmDelete('@item.Id', true)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </span>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="9">لاتوجد بيانات</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+            <partial name="_Gifts" model="Model" />
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

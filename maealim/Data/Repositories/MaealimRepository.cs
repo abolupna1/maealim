@@ -333,5 +333,106 @@ namespace maealim.Data.Repositories
             }
             return false;
         }
+
+        public async Task<IEnumerable<TypeNotable>> GetTypeNotables()
+        {
+            return await _context.TypeNotables.ToListAsync();
+        }
+
+        public async Task<TypeNotable> GetTypeNotable(int id)
+        {
+            return await _context.TypeNotables.SingleOrDefaultAsync(v=>v.Id==id);
+        }
+
+        public async Task<IEnumerable<JobNotable>> GetJobNotables()
+        {
+            return await _context.JobNotable
+                .Include(v=>v.TypeNotable)
+                .ToListAsync();
+        }
+
+        public async Task<JobNotable> GetJobNotable(int id)
+        {
+            return await _context.JobNotable.SingleOrDefaultAsync(f=>f.Id==id);
+        }
+
+        public async Task<IEnumerable<Sheikh>> GetSheikhs()
+        {
+          return  await _context.Sheikhs.ToListAsync();
+        }
+
+        public async Task<Sheikh> GetSheikh(int id)
+        {
+            return await _context.Sheikhs.SingleOrDefaultAsync(s=>s.Id==id);
+        }
+
+        public async Task<IEnumerable<GuestReservation>> GetGuestReservations()
+        {
+            return await _context.GuestReservations
+                .Include(g=>g.MGuide)
+                .Include(g=>g.Sheikh)
+                .ToListAsync();
+        }
+
+        public async Task<GuestReservation> GetGuestReservation(int id)
+        {
+            return await _context.GuestReservations
+                   .Include(g => g.MGuide).ThenInclude(c=>c.Country)
+                .Include(g => g.Sheikh)
+                .Include(g => g.Gifts).ThenInclude(p=>p.ItemOfProduct)
+                .Include(g=>g.Notables).ThenInclude(f=>f.JobNotable)
+                .Include(g=>g.Notables).ThenInclude(f=>f.GuestReservation)
+                .SingleOrDefaultAsync(g=>g.Id==id);
+        }
+
+        public async Task<IEnumerable<Notable>> GetNotables()
+        {
+            return await _context.Notables
+                .Include(n => n.JobNotable)
+                .Include(n => n.Country)
+                .Include(n => n.GuestReservation)
+                .ToListAsync();
+        }
+
+        public async Task<Notable> GetNotable(int id)
+        {
+            return await _context.Notables
+                 .Include(n => n.JobNotable)
+                 .Include(n => n.Country)
+                 .Include(n => n.GuestReservation)
+                 .SingleOrDefaultAsync(n=>n.Id==id);
+        }
+
+        public async Task<IEnumerable<Gift>> GetGiftsByGuestReservationId(int guestReservationId)
+        {
+            return await _context.Gifts
+                .Where(g => g.GuestReservationId == guestReservationId)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Gift>> GetGifts()
+        {
+            return await _context.Gifts.ToListAsync();
+        }
+
+        public async Task<Gift> GetGift(int id)
+        {
+            return await _context.Gifts.SingleOrDefaultAsync(g=>g.Id==id);
+        }
+
+        public async Task<IEnumerable<Notable>> GetJobNotablesNormal(int guestReservationId)
+        {
+            return await _context.Notables
+                .Where(n => n.JobNotable.TypeNotable.Name.Contains("عادي") && n.GuestReservationId==guestReservationId)
+                .ToListAsync();
+                
+        }
+
+        public async Task<IEnumerable<Notable>> GetJobNotablesNotNormal(int guestReservationId)
+        {
+            return await _context.Notables
+                .Where(n => n.JobNotable.TypeNotable.Name.Contains("نوعي") && n.GuestReservationId == guestReservationId)
+                .ToListAsync();
+        }
     }
 }

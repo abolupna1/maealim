@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200204145811_Notables")]
+    partial class Notables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,29 +316,6 @@ namespace maealim.Migrations
                     b.HasIndex("SeasonId");
 
                     b.ToTable("EmployeeContracts");
-                });
-
-            modelBuilder.Entity("maealim.Models.Gift", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GuestReservationId");
-
-                    b.Property<int>("ItemOfProductId");
-
-                    b.Property<string>("Notce");
-
-                    b.Property<int>("Qty");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestReservationId");
-
-                    b.HasIndex("ItemOfProductId");
-
-                    b.ToTable("Gifts");
                 });
 
             modelBuilder.Entity("maealim.Models.GuestReservation", b =>
@@ -855,19 +834,6 @@ namespace maealim.Migrations
                     b.HasOne("maealim.Models.Season", "Season")
                         .WithMany("EmployeeContracts")
                         .HasForeignKey("SeasonId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.Gift", b =>
-                {
-                    b.HasOne("maealim.Models.GuestReservation", "GuestReservation")
-                        .WithMany("Gifts")
-                        .HasForeignKey("GuestReservationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.ItemOfProduct", "ItemOfProduct")
-                        .WithMany("Gifts")
-                        .HasForeignKey("ItemOfProductId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

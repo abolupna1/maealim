@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200129143527_Sheikhs")]
+    partial class Sheikhs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,58 +318,6 @@ namespace maealim.Migrations
                     b.ToTable("EmployeeContracts");
                 });
 
-            modelBuilder.Entity("maealim.Models.Gift", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("GuestReservationId");
-
-                    b.Property<int>("ItemOfProductId");
-
-                    b.Property<string>("Notce");
-
-                    b.Property<int>("Qty");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestReservationId");
-
-                    b.HasIndex("ItemOfProductId");
-
-                    b.ToTable("Gifts");
-                });
-
-            modelBuilder.Entity("maealim.Models.GuestReservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Duration");
-
-                    b.Property<int?>("MGuideId");
-
-                    b.Property<string>("Notce");
-
-                    b.Property<DateTime>("ReservationDate");
-
-                    b.Property<int?>("SessionNo");
-
-                    b.Property<int?>("SheikhId");
-
-                    b.Property<int?>("Status");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MGuideId");
-
-                    b.HasIndex("SheikhId");
-
-                    b.ToTable("GuestReservations");
-                });
-
             modelBuilder.Entity("maealim.Models.GuideContract", b =>
                 {
                     b.Property<int>("Id")
@@ -594,46 +544,6 @@ namespace maealim.Migrations
                     b.ToTable("MGuides");
                 });
 
-            modelBuilder.Entity("maealim.Models.Notable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CountryId")
-                        .IsRequired();
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<int>("GuestReservationId");
-
-                    b.Property<int?>("JobNotableId")
-                        .IsRequired();
-
-                    b.Property<int?>("MGuideId");
-
-                    b.Property<string>("MobileInMyCountry")
-                        .IsRequired();
-
-                    b.Property<string>("MobileInSaudi");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("GuestReservationId");
-
-                    b.HasIndex("JobNotableId");
-
-                    b.HasIndex("MGuideId");
-
-                    b.ToTable("Notables");
-                });
-
             modelBuilder.Entity("maealim.Models.Season", b =>
                 {
                     b.Property<int>("Id")
@@ -670,8 +580,6 @@ namespace maealim.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<bool>("Volunteer");
 
                     b.HasKey("Id");
 
@@ -858,32 +766,6 @@ namespace maealim.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("maealim.Models.Gift", b =>
-                {
-                    b.HasOne("maealim.Models.GuestReservation", "GuestReservation")
-                        .WithMany("Gifts")
-                        .HasForeignKey("GuestReservationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.ItemOfProduct", "ItemOfProduct")
-                        .WithMany("Gifts")
-                        .HasForeignKey("ItemOfProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.GuestReservation", b =>
-                {
-                    b.HasOne("maealim.Models.MGuide", "MGuide")
-                        .WithMany("GuestReservations")
-                        .HasForeignKey("MGuideId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.Sheikh", "Sheikh")
-                        .WithMany("GuestReservations")
-                        .HasForeignKey("SheikhId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("maealim.Models.GuideContract", b =>
                 {
                     b.HasOne("maealim.Models.GuideContract")
@@ -984,29 +866,6 @@ namespace maealim.Migrations
                     b.HasOne("maealim.Models.University", "University")
                         .WithMany("MGuides")
                         .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.Notable", b =>
-                {
-                    b.HasOne("maealim.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.GuestReservation", "GuestReservation")
-                        .WithMany("Notables")
-                        .HasForeignKey("GuestReservationId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.JobNotable", "JobNotable")
-                        .WithMany()
-                        .HasForeignKey("JobNotableId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.MGuide")
-                        .WithMany("Notables")
-                        .HasForeignKey("MGuideId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

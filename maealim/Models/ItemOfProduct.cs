@@ -21,5 +21,6 @@ namespace maealim.Models
 
         public IEnumerable<ItemExport> ItemExports { get; set; }
         public IEnumerable<ItemImport> ItemImports { get; set; }
+        public IEnumerable<Gift> Gifts { get; set; }
     }
 }

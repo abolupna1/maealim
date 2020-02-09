@@ -7,25 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using maealim.Data;
 using maealim.Models;
-using maealim.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using maealim.Data.Repositories;
 
 namespace maealim.Controllers
 {
-    [Route("Banks")]
+    [Route("TypeNotables")]
     [Authorize(Roles = "Admin,ProgramsSupervisor")]
-    public class BanksController : Controller
+    public class TypeNotablesController : Controller
     {
         private readonly IMaealimRepository _repository;
 
-        public BanksController(IMaealimRepository repository)
+        public TypeNotablesController(IMaealimRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetBanks());
+            return View(await _repository.GetTypeNotables());
         }
 
 
@@ -39,15 +39,15 @@ namespace maealim.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
-        public async Task<IActionResult> Create(Bank bank)
+        public async Task<IActionResult> Create(TypeNotable typeNotable)
         {
             if (ModelState.IsValid)
             {
-                _repository.Add<Bank>(bank);
+                _repository.Add<TypeNotable>(typeNotable);
                 await _repository.SavaAll();
                 return RedirectToAction(nameof(Index));
             }
-            return View(bank);
+            return View(typeNotable);
         }
 
         [Route("Edit/{id:int}")]
@@ -55,23 +55,23 @@ namespace maealim.Controllers
         {
 
 
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
+            var typeNotable = await _repository.GetTypeNotable(id);
+            if (typeNotable == null)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
             }
 
-            return View(bank);
+            return View(typeNotable);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id:int}")]
-        public async Task<IActionResult> Edit(int id, Bank bank)
+        public async Task<IActionResult> Edit(int id, TypeNotable typeNotable)
         {
-            if (id != bank.Id)
+            if (id != typeNotable.Id)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
@@ -81,13 +81,13 @@ namespace maealim.Controllers
             {
                 try
                 {
-                    _repository.Update<Bank>(bank);
+                    _repository.Update<TypeNotable>(typeNotable);
                     await _repository.SavaAll();
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_repository.GetBank(bank.Id) == null)
+                    if (_repository.GetTypeNotable(typeNotable.Id) == null)
                     {
                         ViewBag.ErrorMessage = "لايوجد   بيانات";
                         return View("NotFound");
@@ -99,7 +99,7 @@ namespace maealim.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(bank);
+            return View(typeNotable);
         }
 
         [HttpPost]
@@ -107,8 +107,8 @@ namespace maealim.Controllers
         [Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
+            var typeNotable = await _repository.GetTypeNotable(id);
+            if (typeNotable == null)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
@@ -116,14 +116,14 @@ namespace maealim.Controllers
 
             try
             {
-                _repository.Delete<Bank>(bank);
+                _repository.Delete<TypeNotable>(typeNotable);
                 await _repository.SavaAll();
 
 
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {bank.Name} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطين بهذا الموسم ";
+                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {typeNotable.Name} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطين  ";
                 ViewBag.ex = ex.GetBaseException();
                 return View("NotFound");
 
@@ -134,5 +134,4 @@ namespace maealim.Controllers
         }
 
     }
-
 }

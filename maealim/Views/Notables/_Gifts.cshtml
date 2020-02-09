@@ -1,0 +1,24 @@
+﻿@model maealim.Models.GuestReservation
+
+
+<div class="col-12 col-md-12 col-lg-8 order-2 order-md-1">
+
+    <h5 class="text-muted">الهدايا</h5>
+    <div class="row">
+        @foreach (var gift in Model.Gifts)
+        {
+            <div class="col-12 col-sm-4">
+                <div class="info-box bg-light">
+                    <div class="info-box-content">
+                        <span class="info-box-text text-center text-muted">@gift.ItemOfProduct.Name</span>
+                        <span class="info-box-number text-center text-muted mb-0">@gift.Qty</span>
+                    </div>
+                </div>
+            </div>
+        }
+
+ 
+  
+    </div>
+ 
+</div>

@@ -20,7 +20,9 @@ namespace maealim.Data
             string roleAdminAr = "مدير النظام";
             string ProgramsSupervisor = "ProgramsSupervisor";
             string ProgramsSupervisorAr = "مشرف البرامج";
-            
+            string roleGuide = "RoleGuide";
+            string roleGuideAr = "مرشد";
+
             if (await roleManager.FindByNameAsync(roleAdmin) == null)
             {
                 var resault = await roleManager.CreateAsync(new AppRole(roleAdmin, roleAdminAr));
@@ -29,6 +31,11 @@ namespace maealim.Data
             if (await roleManager.FindByNameAsync(ProgramsSupervisor) == null)
             {
                 var resault = await roleManager.CreateAsync(new AppRole(ProgramsSupervisor, ProgramsSupervisorAr));
+            }
+
+            if (await roleManager.FindByNameAsync(roleGuide) == null)
+            {
+                var resault = await roleManager.CreateAsync(new AppRole(roleGuide, roleGuideAr));
             }
 
             string password = "2329472589";

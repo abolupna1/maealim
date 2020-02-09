@@ -12,26 +12,27 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace maealim.Controllers
 {
-    [Route("Banks")]
+    [Route("JobNotables")]
     [Authorize(Roles = "Admin,ProgramsSupervisor")]
-    public class BanksController : Controller
+    public class JobNotablesController : Controller
     {
         private readonly IMaealimRepository _repository;
 
-        public BanksController(IMaealimRepository repository)
+        public JobNotablesController(IMaealimRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetBanks());
+            return View(await _repository.GetJobNotables());
         }
 
 
         [Route("Create")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["TypeNotableId"] = new SelectList(await _repository.GetTypeNotables(), "Id", "Name");
             return View();
         }
 
@@ -39,15 +40,16 @@ namespace maealim.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
-        public async Task<IActionResult> Create(Bank bank)
+        public async Task<IActionResult> Create(JobNotable jobNotable)
         {
             if (ModelState.IsValid)
             {
-                _repository.Add<Bank>(bank);
+                _repository.Add<JobNotable>(jobNotable);
                 await _repository.SavaAll();
                 return RedirectToAction(nameof(Index));
             }
-            return View(bank);
+            ViewData["TypeNotableId"] = new SelectList(await _repository.GetTypeNotables(), "Id", "Name", jobNotable.TypeNotableId);
+            return View(jobNotable);
         }
 
         [Route("Edit/{id:int}")]
@@ -55,23 +57,25 @@ namespace maealim.Controllers
         {
 
 
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
+            var jobNotable = await _repository.GetJobNotable(id);
+            if (jobNotable == null)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
             }
+            ViewData["TypeNotableId"] = new SelectList(await _repository.GetTypeNotables(), "Id", "Name", jobNotable.TypeNotableId);
 
-            return View(bank);
+
+            return View(jobNotable);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id:int}")]
-        public async Task<IActionResult> Edit(int id, Bank bank)
+        public async Task<IActionResult> Edit(int id, JobNotable jobNotable)
         {
-            if (id != bank.Id)
+            if (id != jobNotable.Id)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
@@ -81,13 +85,13 @@ namespace maealim.Controllers
             {
                 try
                 {
-                    _repository.Update<Bank>(bank);
+                    _repository.Update<JobNotable>(jobNotable);
                     await _repository.SavaAll();
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_repository.GetBank(bank.Id) == null)
+                    if (_repository.GetJobNotable(jobNotable.Id) == null)
                     {
                         ViewBag.ErrorMessage = "لايوجد   بيانات";
                         return View("NotFound");
@@ -99,7 +103,10 @@ namespace maealim.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(bank);
+
+            ViewData["TypeNotableId"] = new SelectList(await _repository.GetTypeNotables(), "Id", "Name", jobNotable.TypeNotableId);
+
+            return View(jobNotable);
         }
 
         [HttpPost]
@@ -107,8 +114,8 @@ namespace maealim.Controllers
         [Route("Delete/{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
+            var jobNotable = await _repository.GetJobNotable(id);
+            if (jobNotable == null)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
@@ -116,14 +123,14 @@ namespace maealim.Controllers
 
             try
             {
-                _repository.Delete<Bank>(bank);
+                _repository.Delete<JobNotable>(jobNotable);
                 await _repository.SavaAll();
 
 
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {bank.Name} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطين بهذا الموسم ";
+                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {jobNotable.Name} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطة   ";
                 ViewBag.ex = ex.GetBaseException();
                 return View("NotFound");
 
@@ -132,7 +139,5 @@ namespace maealim.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
-
 }

@@ -37,6 +37,20 @@
     <Compile Remove="Migrations\20200122150530_ItemExport.Designer.cs" />
     <Compile Remove="Migrations\20200122155507_ItemImport.cs" />
     <Compile Remove="Migrations\20200122155507_ItemImport.Designer.cs" />
+    <Compile Remove="Migrations\20200202143109_sh.cs" />
+    <Compile Remove="Migrations\20200202143109_sh.Designer.cs" />
+    <Compile Remove="Migrations\20200202150215_GuestReservation.cs" />
+    <Compile Remove="Migrations\20200202150215_GuestReservation.Designer.cs" />
+    <Compile Remove="Migrations\20200202150408_GuestReservation.cs" />
+    <Compile Remove="Migrations\20200202150408_GuestReservation.Designer.cs" />
+    <Compile Remove="Migrations\20200202151410_GuestReservationUpdate.cs" />
+    <Compile Remove="Migrations\20200202151410_GuestReservationUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20200202155546_GuestReservationUpdateStatus.cs" />
+    <Compile Remove="Migrations\20200202155546_GuestReservationUpdateStatus.Designer.cs" />
+    <Compile Remove="Migrations\20200203144331_Notables.cs" />
+    <Compile Remove="Migrations\20200203144331_Notables.Designer.cs" />
+    <Compile Remove="Migrations\20200203145500_Notables.cs" />
+    <Compile Remove="Migrations\20200203145500_Notables.Designer.cs" />
   </ItemGroup>
 
 

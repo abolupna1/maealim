@@ -1,0 +1,100 @@
+﻿@model maealim.Models.Notable
+
+@{
+    ViewData["Title"] = "اضافة";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    int guestReservationId = ViewBag.guestReservationId;
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>الوجهاء</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="Notables" asp-route-guestReservationId="@guestReservationId" asp-action="NotablesByReservation"> الوجهاء </a></li>
+                    <li class="breadcrumb-item active">      اضافة وجيه </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus-circle"></i>
+                اضافة وجيه
+            </h3>
+
+        </div>
+        <div class="card-body">
+
+
+            <form asp-action="Create">
+                <div class="form-group">
+                    <label asp-for="GuestReservationId" class="control-label"></label>
+                    <input asp-for="GuestReservationId" readonly value="@guestReservationId" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="CountryId" class="control-label"></label>
+                    <select asp-for="CountryId" class="form-control" asp-items="ViewBag.CountryId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="JobNotableId" class="control-label"></label>
+                    <select asp-for="JobNotableId" class="form-control" asp-items="ViewBag.JobNotableId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MobileInMyCountry" class="control-label"></label>
+                    <input asp-for="MobileInMyCountry" class="form-control" />
+                    <span asp-validation-for="MobileInMyCountry" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MobileInSaudi" class="control-label"></label>
+                    <input asp-for="MobileInSaudi" class="form-control" />
+                    <span asp-validation-for="MobileInSaudi" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

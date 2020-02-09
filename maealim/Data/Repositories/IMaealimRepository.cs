@@ -69,5 +69,28 @@ namespace maealim.Data.Repositories
         Task<ItemImport> GetItemImport(int id);
         Task<bool> CheckIfImportsEqualExport(int itemOfProductId,int qty);
 
+        Task<IEnumerable<TypeNotable>> GetTypeNotables();
+        Task<TypeNotable> GetTypeNotable(int id);
+
+        Task<IEnumerable<JobNotable>> GetJobNotables();
+        Task<JobNotable> GetJobNotable(int id);
+
+        Task<IEnumerable<Sheikh>> GetSheikhs();
+        Task<Sheikh> GetSheikh(int id);
+
+        Task<IEnumerable<GuestReservation>> GetGuestReservations();
+        Task<GuestReservation> GetGuestReservation(int id);
+
+
+        Task<IEnumerable<Notable>> GetNotables();
+        Task<IEnumerable<Notable>> GetJobNotablesNormal(int guestReservationId);
+        Task<IEnumerable<Notable>> GetJobNotablesNotNormal(int guestReservationId);
+
+        Task<Notable> GetNotable(int id);
+
+        Task<IEnumerable<Gift>> GetGiftsByGuestReservationId(int guestReservationId);
+        Task<IEnumerable<Gift>> GetGifts();
+        Task<Gift> GetGift(int id);
+
     }
 }

@@ -65,7 +65,15 @@ namespace maealim.Data
         public DbSet<ItemOfProduct> ItemOfProducts { get; set; }
         public DbSet<ItemExport> ItemExports { get; set; }
         public DbSet<ItemImport> ItemImports { get; set; }
-        
+        public DbSet<TypeNotable> TypeNotables { get; set; }
+        public DbSet<JobNotable> JobNotable { get; set; }
+        public DbSet<Sheikh> Sheikhs { get; set; }
+        public DbSet<GuestReservation> GuestReservations { get; set; }
+        public DbSet<Notable> Notables { get; set; }
+        public DbSet<Gift> Gifts { get; set; }
+
+
+
 
     }
 }

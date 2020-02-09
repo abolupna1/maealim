@@ -7,47 +7,69 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using maealim.Data;
 using maealim.Models;
-using maealim.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using maealim.Data.Repositories;
+using maealim.Extensions.Alerts;
 
 namespace maealim.Controllers
 {
-    [Route("Banks")]
+    [Route("Gifts")]
     [Authorize(Roles = "Admin,ProgramsSupervisor")]
-    public class BanksController : Controller
+    public class GiftsController : Controller
     {
         private readonly IMaealimRepository _repository;
 
-        public BanksController(IMaealimRepository repository)
+        public GiftsController(IMaealimRepository repository)
         {
             _repository = repository;
         }
-
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetBanks());
+            return View(await _repository.GetGifts());
         }
 
 
-        [Route("Create")]
-        public IActionResult Create()
+        [Route("Create/{guestReservationId:int}")]
+        public async Task<IActionResult> Create(int guestReservationId)
         {
+            ViewData["ItemOfProducts"] = await _repository.GetItemOfProducts();
+            ViewBag.guestReservationId = guestReservationId;
+            var JobNotablesNormal = await _repository.GetJobNotablesNormal(guestReservationId);
+            var JobNotablesNotNormal = await _repository.GetJobNotablesNotNormal(guestReservationId); await _repository.GetJobNotablesNormal(guestReservationId);
+            ViewBag.notableNormal = JobNotablesNormal.Count();
+            ViewBag.notableNotNormal = JobNotablesNotNormal.Count();
             return View();
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Create")]
-        public async Task<IActionResult> Create(Bank bank)
+        [Route("Create/{guestReservationId:int}")]
+        public async Task<IActionResult> Create(int guestReservationId,List<Gift> gifts)
         {
             if (ModelState.IsValid)
             {
-                _repository.Add<Bank>(bank);
+                var allGifts = await _repository.GetGiftsByGuestReservationId(guestReservationId);
+                foreach (var gift in allGifts)
+                {
+                    _repository.Delete<Gift>(gift);
+                }
                 await _repository.SavaAll();
-                return RedirectToAction(nameof(Index));
+                foreach (var gift in gifts)
+                {
+                    _repository.Add<Gift>(gift);
+                }
+                await _repository.SavaAll();
+                return RedirectToAction("NotablesByReservation", "Notables",
+                new { guestReservationId = guestReservationId }).WithSuccess("success","تم الحفظ بنجاخ");
             }
-            return View(bank);
+            ViewData["ItemOfProducts"] = await _repository.GetItemOfProducts();
+            ViewBag.guestReservationId = guestReservationId;
+            var JobNotablesNormal = await _repository.GetJobNotablesNormal(guestReservationId);
+            var JobNotablesNotNormal = await _repository.GetJobNotablesNotNormal(guestReservationId); await _repository.GetJobNotablesNormal(guestReservationId);
+            ViewBag.notableNormal = JobNotablesNormal.Count();
+            ViewBag.notableNotNormal = JobNotablesNotNormal.Count();
+            return View(gifts);
         }
 
         [Route("Edit/{id:int}")]
@@ -132,7 +154,5 @@ namespace maealim.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
-
 }

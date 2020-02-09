@@ -1,0 +1,92 @@
+﻿@model maealim.Models.GuestReservation
+
+@{
+    ViewData["Title"] = " تعديل ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> الحجوزات </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="GuestReservations" asp-action="Index">الحجوزات</a></li>
+                    <li class="breadcrumb-item active">تعديل حجز </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-edit"></i>
+                تعديل حجز
+            </h3>
+
+        </div>
+        <div class="card-body">
+            <form asp-action="">
+                <input asp-for="Id" type="hidden" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="MGuideId" class="control-label"></label>
+                    <select asp-for="MGuideId" class="form-control" asp-items="ViewBag.MGuideId">
+                        <option value="">الرجاء الإختيار</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SheikhId" class="control-label"></label>
+                    <select asp-for="SheikhId" class="form-control" asp-items="ViewBag.SheikhId">
+                        <option value="">الرجاء الإختيار</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReservationDate" class="control-label"></label>
+                    <input asp-for="ReservationDate" class="form-control" />
+                    <span asp-validation-for="ReservationDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Duration" class="control-label"></label>
+                    <input asp-for="Duration" class="form-control" />
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SessionNo" class="control-label"></label>
+                    <input asp-for="SessionNo" class="form-control" />
+                    <span asp-validation-for="SessionNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

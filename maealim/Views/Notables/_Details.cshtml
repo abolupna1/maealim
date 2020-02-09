@@ -1,0 +1,56 @@
+﻿@model maealim.Models.GuestReservation
+
+<div class="callout callout-info">
+    <h5><i class="fas fa-info"></i>    <strong>تفاصيل الحجز رقم :</strong> @Model.Id</h5>
+    <div class="row">
+        <div class="col-md-4 ">
+            <strong>الجنسية : </strong>
+            @if (Model.MGuideId != null)
+            {
+                @Model.MGuide.Country.Name
+            }
+        </div>
+        <div class="col-md-4 ">
+            <strong>المرشد : </strong>
+            @if (Model.MGuideId != null)
+            {
+                @Model.MGuide.Name
+            }
+        </div>
+        <div class="col-md-4 ">
+            <strong>الشيخ : </strong>
+            @if (Model.SheikhId != null)
+            {
+                @Model.Sheikh.Name
+            }
+        </div>
+        <div class="col-12">
+            <hr />
+        </div>
+        <div class="col-md-3">
+            <strong>التاريخ : </strong>@Model.ReservationDate.ToString("dd-MM-yyyy")
+        </div>
+
+        <div class="col-md-3">
+            <strong>الفترة : </strong>@Model.Duration
+        </div>
+        <div class="col-md-3">
+            <strong>رقم الجلسة	 : </strong>@Model.SessionNo
+        </div>
+        <div class="col-md-3">
+            <strong>حالة الحجز	: </strong>
+            @if (Model.Status == null)
+            {
+                @:جاري معاجة الطلب
+            }
+            else if (Model.Status == 0)
+            {
+                @:ملغي
+            }
+            else if (Model.Status == 1)
+            {
+                @:تم الحضور
+            }
+        </div>
+    </div>
+</div>

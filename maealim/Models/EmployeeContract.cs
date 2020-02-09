@@ -45,5 +45,7 @@ namespace maealim.Models
         public DateTime ToDate { get; set; }
         [Display(Name = "الحالة"), Required(ErrorMessage = "{0} مطلوب")]
         public bool Status { get; set; }
+
+
     }
 }

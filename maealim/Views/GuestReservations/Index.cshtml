@@ -1,0 +1,199 @@
+﻿@model IEnumerable<maealim.Models.GuestReservation>
+
+@{
+    ViewData["Title"] = " الحجوزات ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> الحجوزات </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">الحجوزات </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <partial name="_StatusMessages" />
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-list-alt"></i>
+                الحجوزات
+            </h3>
+        
+            <a asp-action="Create" class="btn  btn-primary  btn-sm text-white float-left m-0">
+                <i class="fas fa-plus-circle"></i>
+                اضافة حجز
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table tab-content table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MGuide)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Sheikh)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ReservationDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Duration)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SessionNo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            int i = 1;
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th>@i</th>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MGuide.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Sheikh.Mobile)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReservationDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Duration)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SessionNo)
+                                    </td>
+                                    <td>
+                                        @if (item.Status == null)
+                                        {
+                                            @:جاري معاجة الطلب
+                                        }
+                                        else if (item.Status == 0)
+                                        {
+                                            @:ملغي
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                            @:تم الحضور
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="btn-group">
+                                            @if (item.Status == null)
+                                            {
+                                                <a asp-action="Edit" title="تعديل الحجز" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                <form asp-action="Delete" asp-route-id="@item.Id">
+                                                    <span id="confirmDeleteSpan_d_@item.Id" style="display:none">
+                                                        <span class="mr-2">هل تريد الحذف ؟</span>
+                                                        <button type="submit" class="btn btn-danger">نعم</button>
+                                                        <a class="btn btn-primary text-white ml-3"
+                                                           onclick="confirmDelete('d_@item.Id', false)">لا</a>
+                                                    </span>
+                                                    <span id="deleteSpan_d_@item.Id">
+                                                        <a class="btn btn-danger text-white" title="حذف الحجز"
+                                                           onclick="confirmDelete('d_@item.Id', true)">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                </form>
+                                            }
+                                            @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
+                                            {
+                                                <form asp-action="ConfirmReservation" asp-route-id="@item.Id">
+
+                                                    <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
+                                                        <span class="mr-2">هل  تم حضور الوجهاء ؟</span>
+                                                        <button type="submit" class="btn btn-danger">نعم</button>
+                                                        <a class="btn btn-primary text-white ml-3"
+                                                           onclick="confirmDelete('c_@item.Id', false)">لا</a>
+                                                    </span>
+                                                    <span id="deleteSpan_c_@item.Id">
+                                                        <a class="btn btn-info text-white mr-1" title="تاكيد حضور الوجهاء"
+                                                           onclick="confirmDelete('c_@item.Id', true)">
+                                                            <i class="fas fa-check-circle"></i>
+                                                        </a>
+                                                    </span>
+                                                </form>
+
+                                                <form asp-action="CancelReservation" asp-route-id="@item.Id">
+
+                                                    <span id="confirmDeleteSpan_cancel_@item.Id" style="display:none">
+                                                        <span class="mr-2">هل تريد الغاء الحجز ؟</span>
+                                                        <button type="submit" class="btn btn-danger">نعم</button>
+                                                        <a class="btn btn-primary text-white ml-3"
+                                                           onclick="confirmDelete('cancel_@item.Id', false)">لا</a>
+                                                    </span>
+                                                    <span id="deleteSpan_cancel_@item.Id">
+                                                        <a class="btn btn-warning text-white mr-1" title="الغاء الحجز"
+                                                           onclick="confirmDelete('cancel_@item.Id', true)">
+                                                            <i class="fas fa-ban"></i>
+                                                        </a>
+                                                    </span>
+                                                </form>
+                                            }
+
+                                            @if (item.Status != 0)
+                                            {
+                                                <a asp-action="NotablesByReservation" asp-controller="Notables" title=" الوجهاء" asp-route-guestReservationId="@item.Id" type="button" class="btn btn-success mr-1">
+                                                    <i class="fas fa-user-friends"></i>
+                                                </a>
+                                            }
+
+                                        </div>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="8">لاتوجد بيانات</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

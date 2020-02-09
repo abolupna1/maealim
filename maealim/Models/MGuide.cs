@@ -68,5 +68,9 @@ namespace maealim.Models
         [Display(Name = "الجوال")]
         public string Mobile { get; set; }
 
+
+        public IEnumerable<GuestReservation> GuestReservations { get; set; }
+        public IEnumerable<Notable> Notables { get; set; }
+
     }
 }
