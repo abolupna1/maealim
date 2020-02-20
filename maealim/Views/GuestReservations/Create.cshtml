@@ -39,22 +39,17 @@
         </div>
         <div class="card-body">
             <form asp-action="">
-      
+
                 <div class="form-group">
                     <label asp-for="MGuideId" class="control-label"></label>
                     <select asp-for="MGuideId" class="form-control" asp-items="ViewBag.MGuideId">
                         <option value="">الرجاء الإختيار</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label asp-for="SheikhId" class="control-label"></label>
-                    <select asp-for="SheikhId" class="form-control" asp-items="ViewBag.SheikhId">
-                        <option value="">الرجاء الإختيار</option>
-                    </select>
+
                 </div>
                 <div class="form-group">
                     <label asp-for="ReservationDate" class="control-label"></label>
-                    <input asp-for="ReservationDate" class="form-control" />
+                    <input asp-for="ReservationDate" type="text" class="form-control" />
                     <span asp-validation-for="ReservationDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -62,16 +57,28 @@
                     <input asp-for="Duration" class="form-control" />
                     <span asp-validation-for="Duration" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="SessionNo" class="control-label"></label>
-                    <input asp-for="SessionNo" class="form-control" />
-                    <span asp-validation-for="SessionNo" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Status" class="control-label"></label>
-                    <input asp-for="Status" class="form-control" />
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
+                @if (!User.IsInRole("RoleGuide"))
+                {
+
+
+                    <div class="form-group">
+                        <label asp-for="SheikhId" class="control-label"></label>
+                        <select asp-for="SheikhId" class="form-control" asp-items="ViewBag.SheikhId">
+                            <option value="">الرجاء الإختيار</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SessionNo" class="control-label"></label>
+                        <input asp-for="SessionNo" class="form-control" />
+                        <span asp-validation-for="SessionNo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <input asp-for="Status" class="form-control" />
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                }
                 <div class="form-group">
                     <input type="submit" value="حفظ" class="btn btn-primary" />
                 </div>
@@ -88,5 +95,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+
+              $(function() {
+               $("#ReservationDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+       });
+        });
+    </script>
 }
 

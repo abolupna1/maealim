@@ -9,9 +9,9 @@
     int guestReservationId = ViewBag.guestReservationId;
     var gifts = ViewData["ItemOfProducts"] as IEnumerable<ItemOfProduct>;
     int j = 1;
-    int notableNormal=  ViewBag.notableNormal ;
-    int notableNotNormal=  ViewBag.notableNotNormal ;
-            
+    int notableNormal = ViewBag.notableNormal;
+    int notableNotNormal = ViewBag.notableNotNormal;
+
 }
 
 <!-- Content Header (Page header) -->
@@ -92,6 +92,7 @@
                             </tr>
                             j++;
                         }
+
                     </tbody>
                 </table>
 
@@ -121,5 +122,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
 }
 

@@ -54,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="ReservationDate" class="control-label"></label>
-                    <input asp-for="ReservationDate" class="form-control" />
+                    <input asp-for="ReservationDate" type="text" class="form-control" />
                     <span asp-validation-for="ReservationDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -88,5 +88,14 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+
+              $(function() {
+               $("#ReservationDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+       });
+        });
+    </script>
 }
 

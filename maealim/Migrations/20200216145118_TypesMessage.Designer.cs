@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using maealim.Data;
 
 namespace maealim.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200216145118_TypesMessage")]
+    partial class TypesMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,31 +596,6 @@ namespace maealim.Migrations
                     b.ToTable("MGuides");
                 });
 
-            modelBuilder.Entity("maealim.Models.MessageSend", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AppUserId");
-
-                    b.Property<int>("NotableId");
-
-                    b.Property<DateTime>("SendDate");
-
-                    b.Property<int>("WjhaaMessageId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("NotableId");
-
-                    b.HasIndex("WjhaaMessageId");
-
-                    b.ToTable("MessageSends");
-                });
-
             modelBuilder.Entity("maealim.Models.Notable", b =>
                 {
                     b.Property<int>("Id")
@@ -791,34 +768,6 @@ namespace maealim.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Universities");
-                });
-
-            modelBuilder.Entity("maealim.Models.WjhaaMessage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CountryId");
-
-                    b.Property<int>("MGuideId");
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.Property<bool>("Status");
-
-                    b.Property<int>("TypesMessageId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("MGuideId");
-
-                    b.HasIndex("TypesMessageId");
-
-                    b.ToTable("WjhaaMessages");
                 });
 
             modelBuilder.Entity("maealim.Models.WorkSeason", b =>
@@ -1055,24 +1004,6 @@ namespace maealim.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("maealim.Models.MessageSend", b =>
-                {
-                    b.HasOne("maealim.Models.AppUser", "AppUser")
-                        .WithMany("MessageSends")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.Notable", "Notable")
-                        .WithMany("MessageSends")
-                        .HasForeignKey("NotableId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.WjhaaMessage", "WjhaaMessage")
-                        .WithMany("MessageSends")
-                        .HasForeignKey("WjhaaMessageId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("maealim.Models.Notable", b =>
                 {
                     b.HasOne("maealim.Models.Country", "Country")
@@ -1093,24 +1024,6 @@ namespace maealim.Migrations
                     b.HasOne("maealim.Models.MGuide")
                         .WithMany("Notables")
                         .HasForeignKey("MGuideId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("maealim.Models.WjhaaMessage", b =>
-                {
-                    b.HasOne("maealim.Models.Country", "Country")
-                        .WithMany("WjhaaMessage")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.MGuide", "MGuide")
-                        .WithMany("WjhaaMessage")
-                        .HasForeignKey("MGuideId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("maealim.Models.TypesMessage", "TypesMessage")
-                        .WithMany("WjhaaMessage")
-                        .HasForeignKey("TypesMessageId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 

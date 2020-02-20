@@ -39,25 +39,53 @@
                 <i class="fas fa-list-alt"></i>
                 الوجهاء
             </h3>
-            <a asp-action="Create" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left m-0">
-                <i class="fas fa-plus-circle"></i>
-                اضافة وجيه
-            </a>
-            @if (Model.Gifts.Any())
+            @if (Model.Status != 1)
             {
-                <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
+                <a asp-action="Create" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left m-0">
                     <i class="fas fa-plus-circle"></i>
-                    الهداية
-                </a>
-            }
-            else
-            {
-                <a asp-action="Edit" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
-                    <i class="fas fa-edit"></i>
-                    الهداية
+                    اضافة وجيه
                 </a>
             }
 
+            @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
+            {
+
+
+                if (!Model.Gifts.Any())
+                {
+                    <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
+                        <i class="fas fa-plus-circle"></i>
+                        الهداية
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
+                        <i class="fas fa-edit"></i>
+                        الهداية
+                    </a>
+                }
+                @if (Model.Status != 1)
+                {
+                    <form asp-action="WasAttendance" asp-controller="GuestReservations" class="float-left ml-1" asp-route-id="@guestReservationId">
+
+                        <span id="confirmDeleteSpan_c_@guestReservationId" style="display:none">
+                            <span class="mr-2">هل  تم الحضور ؟</span>
+                            <button type="submit" class="btn btn-sm btn-danger">نعم</button>
+                            <a class="btn btn-primary text-white ml-3 btn-sm"
+                               onclick="confirmDelete('c_@guestReservationId', false)">لا</a>
+                        </span>
+                        <span id="deleteSpan_c_@guestReservationId">
+                            <a class="btn btn-info text-white mr-1 btn-sm" title="  هل  تم الحضور ؟"
+                               onclick="confirmDelete('c_@guestReservationId', true)">
+                                <i class="fas fa-check-circle"></i>
+                                الحضور ؟
+                            </a>
+                        </span>
+                    </form>
+                }
+
+            }
         </div>
         <div class="card-body">
 
@@ -98,53 +126,86 @@
 
                             @foreach (var item in Model.Notables)
                             {
-                                <tr>
-                                    <th>@i</th>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.GuestReservation.Id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Country.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.JobNotable.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Email)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MobileInMyCountry)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.MobileInSaudi)
-                                    </td>
+                        <tr>
+                            <th>@i</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GuestReservation.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Country.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.JobNotable.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobileInMyCountry)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MobileInSaudi)
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
+                                {
 
-                                    <td>
-                                        <div class="btn-group">
-                                            <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        
+                                        <form asp-action="Delete" asp-route-id="@item.Id">
+                                            <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                                                <span>هل تريد الحذف ؟</span>
+                                                <button type="submit" class="btn btn-danger">نعم</button>
+                                                <a href="#" class="btn btn-primary"
+                                                   onclick="confirmDelete('@item.Id', false)">لا</a>
+                                            </span>
+                                            <span id="deleteSpan_@item.Id">
+                                                <a href="#" class="btn btn-danger"
+                                                   onclick="confirmDelete('@item.Id', true)">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </form>
+                                    </div>
 
-                                            <form asp-action="Delete" asp-route-id="@item.Id">
-                                                <span id="confirmDeleteSpan_@item.Id" style="display:none">
-                                                    <span>هل تريد الحذف ؟</span>
-                                                    <button type="submit" class="btn btn-danger">نعم</button>
-                                                    <a href="#" class="btn btn-primary"
-                                                       onclick="confirmDelete('@item.Id', false)">لا</a>
-                                                </span>
-                                                <span id="deleteSpan_@item.Id">
-                                                    <a href="#" class="btn btn-danger"
-                                                       onclick="confirmDelete('@item.Id', true)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                </span>
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
+                                }
+                                else
+                                {
+                                    if (Model.Status!=1)
+                                    {
+
+                                   
+                                    <div class="btn-group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <form asp-action="Delete" asp-route-id="@item.Id">
+                                            <span id="confirmDeleteSpan_@item.Id" style="display:none">
+                                                <span>هل تريد الحذف ؟</span>
+                                                <button type="submit" class="btn btn-danger">نعم</button>
+                                                <a href="#" class="btn btn-primary"
+                                                   onclick="confirmDelete('@item.Id', false)">لا</a>
+                                            </span>
+                                            <span id="deleteSpan_@item.Id">
+                                                <a href="#" class="btn btn-danger"
+                                                   onclick="confirmDelete('@item.Id', true)">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </form>
+                                    </div>
+                                    }
+                                }
+
+                            </td>
+                            </tr>
                                 i++;
                             }
                         }

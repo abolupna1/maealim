@@ -12,6 +12,6 @@ namespace maealim.Models
         public ICollection<AppUserRole> UserRoles { get; set; }
 
         public Employee Employee { get; set; }
-
+        public IEnumerable<MessageSend> MessageSends { get; set; }
     }
 }

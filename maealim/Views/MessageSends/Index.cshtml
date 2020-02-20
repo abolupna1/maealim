@@ -1,0 +1,105 @@
+﻿@model IEnumerable<maealim.Models.Country>
+
+@{
+    ViewData["Title"] = " الرسائل ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> الرسائل </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item active">الرسائل </li>
+
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-list-alt"></i>
+                الرسائل
+            </h3>
+            
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table tab-content table-striped table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                الرسائل المرسلة
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Any())
+                        {
+                            int i = 1;
+
+                            @foreach (var item in Model)
+                            {
+                        <tr>
+                            <th>@i</th>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @{var mesages = item.Notables.Where(b => b.CountryId == item.Id);}
+                                @mesages.Where(g=>g.MessageSends.Any()).Count()
+                               
+                            </td>
+
+
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Create" asp-route-countryId="@item.Id" class="btn  btn-primary  btn-sm text-white float-left m-0">
+                                        <i class="fas fa-plus-circle"></i>
+                                        اضافة رسالة
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                                i++;
+                            }
+                        }
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="3">لاتوجد بيانات</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

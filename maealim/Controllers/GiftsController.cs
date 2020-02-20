@@ -35,9 +35,15 @@ namespace maealim.Controllers
             ViewData["ItemOfProducts"] = await _repository.GetItemOfProducts();
             ViewBag.guestReservationId = guestReservationId;
             var JobNotablesNormal = await _repository.GetJobNotablesNormal(guestReservationId);
-            var JobNotablesNotNormal = await _repository.GetJobNotablesNotNormal(guestReservationId); await _repository.GetJobNotablesNormal(guestReservationId);
+            var JobNotablesNotNormal = await _repository.GetJobNotablesNotNormal(guestReservationId);
             ViewBag.notableNormal = JobNotablesNormal.Count();
             ViewBag.notableNotNormal = JobNotablesNotNormal.Count();
+           var giftsall = await _repository.GetGiftsByGuestReservationId(guestReservationId);
+            if (giftsall.Count()>0)
+            {
+                return View(giftsall.OrderBy(f=>f.ItemOfProductId).ToList());
+
+            }
             return View();
         }
 
@@ -58,6 +64,8 @@ namespace maealim.Controllers
                 foreach (var gift in gifts)
                 {
                     _repository.Add<Gift>(gift);
+
+
                 }
                 await _repository.SavaAll();
                 return RedirectToAction("NotablesByReservation", "Notables",
@@ -72,87 +80,7 @@ namespace maealim.Controllers
             return View(gifts);
         }
 
-        [Route("Edit/{id:int}")]
-        public async Task<IActionResult> Edit(int id)
-        {
 
-
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
-            {
-                ViewBag.ErrorMessage = "لايوجد   بيانات";
-                return View("NotFound");
-            }
-
-            return View(bank);
-        }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("Edit/{id:int}")]
-        public async Task<IActionResult> Edit(int id, Bank bank)
-        {
-            if (id != bank.Id)
-            {
-                ViewBag.ErrorMessage = "لايوجد   بيانات";
-                return View("NotFound");
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _repository.Update<Bank>(bank);
-                    await _repository.SavaAll();
-
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (_repository.GetBank(bank.Id) == null)
-                    {
-                        ViewBag.ErrorMessage = "لايوجد   بيانات";
-                        return View("NotFound");
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(bank);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("Delete/{id:int}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var bank = await _repository.GetBank(id);
-            if (bank == null)
-            {
-                ViewBag.ErrorMessage = "لايوجد   بيانات";
-                return View("NotFound");
-            }
-
-            try
-            {
-                _repository.Delete<Bank>(bank);
-                await _repository.SavaAll();
-
-
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {bank.Name} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطين بهذا الموسم ";
-                ViewBag.ex = ex.GetBaseException();
-                return View("NotFound");
-
-
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
+     
     }
 }

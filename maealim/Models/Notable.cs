@@ -39,8 +39,8 @@ namespace maealim.Models
         [Display(Name = "الجوال في السعودية")]
         public string MobileInSaudi  { get; set; }
 
-      
 
 
+        public IEnumerable<MessageSend> MessageSends { get; set; }
     }
 }

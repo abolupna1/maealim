@@ -54,7 +54,10 @@ namespace maealim.Data.Repositories
 
         public async Task<IEnumerable<Country>> GetCountries()
         {
-            return await _context.Countries.Include(d=>d.Continent).ToListAsync();
+            return await _context.Countries
+                .Include(d=>d.Continent)
+                .Include(d=>d.Notables).ThenInclude(m=>m.MessageSends)
+                .ToListAsync();
         }
 
         public async Task<Country> GetCountry(int id)
@@ -433,6 +436,47 @@ namespace maealim.Data.Repositories
             return await _context.Notables
                 .Where(n => n.JobNotable.TypeNotable.Name.Contains("نوعي") && n.GuestReservationId == guestReservationId)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<GuestReservation>> GetGuestReservationsByGuideId(int guideId)
+        {
+            return await _context.GuestReservations
+                .Where(g => g.MGuideId == guideId)
+                .Include(g=>g.MGuide)
+                .ToListAsync();
+        }
+
+        public async Task<MGuide> GetGuideByUserId(int userId)
+        {
+            return await _context.MGuides.SingleOrDefaultAsync(g=>g.AppUserId==userId);
+        }
+
+        public async Task<IEnumerable<TypesMessage>> GetTypesMessages()
+        {
+            return await _context.TypesMessages.ToListAsync();
+        }
+
+        public async Task<TypesMessage> GetTypesMessage(int id)
+        {
+            return await _context.TypesMessages.SingleOrDefaultAsync(t=>t.Id==id);
+        }
+
+        public async Task<IEnumerable<WjhaaMessage>> GetWjhaaMessages()
+        {
+            return await _context.WjhaaMessages
+                .Include(f=>f.MGuide)
+                .Include(f=>f.Country)
+                .Include(f=>f.TypesMessage)
+                .ToListAsync();
+        }
+
+        public async Task<WjhaaMessage> GetWjhaaMessage(int id)
+        {
+            return await _context.WjhaaMessages
+                 .Include(f => f.MGuide)
+                .Include(f => f.Country)
+                .Include(f => f.TypesMessage)
+                .SingleOrDefaultAsync(m=>m.Id==id);
         }
     }
 }

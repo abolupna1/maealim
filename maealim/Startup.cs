@@ -18,7 +18,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using maealim.Data.Repositories;
 using AutoMapper;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
+using maealim.Servaces;
 
 namespace maealim
 {
@@ -46,6 +47,8 @@ namespace maealim
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IEmailSender,EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped<IMaealimRepository, MaealimRepository>();
             services.AddIdentity<AppUser, AppRole>(options => {

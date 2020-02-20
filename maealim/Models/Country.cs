@@ -22,5 +22,8 @@ namespace maealim.Models
         public bool Status { get; set; } // اظهار / مخفي
 
         public IEnumerable<MGuide> MGuides { get; set; }
+        public IEnumerable<WjhaaMessage> WjhaaMessage { get; set; }
+        public IEnumerable<Notable> Notables { get; set; }
+
     }
 }

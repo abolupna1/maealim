@@ -71,6 +71,9 @@ namespace maealim.Data
         public DbSet<GuestReservation> GuestReservations { get; set; }
         public DbSet<Notable> Notables { get; set; }
         public DbSet<Gift> Gifts { get; set; }
+        public DbSet<TypesMessage> TypesMessages { get; set; }
+        public DbSet<WjhaaMessage> WjhaaMessages { get; set; }
+        public DbSet<MessageSend> MessageSends { get; set; }
 
 
 

@@ -9,6 +9,8 @@ using maealim.Data;
 using maealim.Models;
 using Microsoft.AspNetCore.Authorization;
 using maealim.Data.Repositories;
+using System.Security.Claims;
+using maealim.Extensions.Alerts;
 
 namespace maealim.Controllers
 {
@@ -25,6 +27,12 @@ namespace maealim.Controllers
 
         public async Task<IActionResult> Index()
         {
+            
+            if (User.IsInRole("RoleGuide")) { 
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var guide = await _repository.GetGuideByUserId(userId);
+                return View(await _repository.GetGuestReservationsByGuideId(guide.Id)); 
+            }
             return View(await _repository.GetGuestReservations());
         }
 
@@ -32,7 +40,19 @@ namespace maealim.Controllers
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
-            ViewData["MGuideId"] = new SelectList(await _repository.GetGuides(),"Id","Name");
+            if (User.IsInRole("RoleGuide"))
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var guide = await _repository.GetGuideByUserId(userId);
+                var guids = await _repository.GetGuides();
+                ViewData["MGuideId"] = new SelectList(guids.Where(g=>g.Id==guide.Id), "Id", "Name", guide.Id);
+            }
+            else
+            {
+                ViewData["MGuideId"] = new SelectList(await _repository.GetGuides(), "Id", "Name");
+
+            }
+
             ViewData["SheikhId"] = new SelectList(await _repository.GetSheikhs(),"Id","Name");
             return View();
         }
@@ -49,6 +69,7 @@ namespace maealim.Controllers
                 await _repository.SavaAll();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["MGuideId"] = new SelectList(await _repository.GetGuides(), "Id", "Name", guestReservation.MGuideId);
             ViewData["SheikhId"] = new SelectList(await _repository.GetSheikhs(), "Id", "Name", guestReservation.SheikhId);
             return View(guestReservation);
@@ -157,7 +178,7 @@ namespace maealim.Controllers
 
             try
             {
-                guestReservation.Status = 1;
+                guestReservation.Status = 2;
                 _repository.Update<GuestReservation>(guestReservation);
                 await _repository.SavaAll();
 
@@ -205,6 +226,42 @@ namespace maealim.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+
+        [ValidateAntiForgeryToken]
+        [Route("WasAttendance/{id:int}")]
+        public async Task<IActionResult> WasAttendance(int id)
+        {
+            var guestReservation = await _repository.GetGuestReservation(id);
+            if (guestReservation == null)
+            {
+                ViewBag.ErrorMessage = "لايوجد   بيانات";
+                return View("NotFound");
+            }
+
+            try
+            {
+                guestReservation.Status = 1;
+                _repository.Update<GuestReservation>(guestReservation);
+                await _repository.SavaAll();
+
+
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = $"لايمكن حذف   : ( {guestReservation.SessionNo} )  اذا اردت الحذف الرجاء حذف جميع  الحقول المرتبطة ";
+                ViewBag.ex = ex.GetBaseException();
+                return View("NotFound");
+
+
+            }
+
+            return RedirectToAction("NotablesByReservation", 
+                "Notables",
+                new { guestReservationId = id })
+                .WithSuccess("success","تم الحفظ بنجاح"); 
         }
 
     }

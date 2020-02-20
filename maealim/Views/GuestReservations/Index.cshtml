@@ -73,7 +73,7 @@
                         {
                             int i = 1;
 
-                            @foreach (var item in Model)
+                            @foreach (var item in Model.OrderByDescending(d=>d.Id))
                             {
                                 <tr>
                                     <th>@i</th>
@@ -100,6 +100,10 @@
                                         else if (item.Status == 0)
                                         {
                                             @:ملغي
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            @:الحجز مؤكد
                                         }
                                         else if (item.Status == 1)
                                         {
@@ -135,13 +139,13 @@
                                                 <form asp-action="ConfirmReservation" asp-route-id="@item.Id">
 
                                                     <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
-                                                        <span class="mr-2">هل  تم حضور الوجهاء ؟</span>
+                                                        <span class="mr-2">هل  تريد تاكيد الحجز ؟</span>
                                                         <button type="submit" class="btn btn-danger">نعم</button>
                                                         <a class="btn btn-primary text-white ml-3"
                                                            onclick="confirmDelete('c_@item.Id', false)">لا</a>
                                                     </span>
                                                     <span id="deleteSpan_c_@item.Id">
-                                                        <a class="btn btn-info text-white mr-1" title="تاكيد حضور الوجهاء"
+                                                        <a class="btn btn-info text-white mr-1" title="  تاكيد الحجز"
                                                            onclick="confirmDelete('c_@item.Id', true)">
                                                             <i class="fas fa-check-circle"></i>
                                                         </a>
