@@ -46,5 +46,8 @@ namespace maealim.Models
         [Display(Name = "الحالة"), Required(ErrorMessage = "{0} مطلوب")]
         public bool Status { get; set; }
         public IEnumerable<GuideContract> GuideContracts { get; set; }
+
+        public IEnumerable<Attend> Attends { get; set; }
+
     }
 }

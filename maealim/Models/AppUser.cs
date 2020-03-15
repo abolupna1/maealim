@@ -13,5 +13,8 @@ namespace maealim.Models
 
         public Employee Employee { get; set; }
         public IEnumerable<MessageSend> MessageSends { get; set; }
+
+        public IEnumerable<Attend> Attends { get; set; }
+
     }
 }

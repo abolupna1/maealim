@@ -1,40 +1,75 @@
 ﻿@model maealim.ModelViews.MessageSends.MessageSendCMV
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = " اضافة ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>MessageSend</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="TypesMessageId" class="control-label"></label>
-                <select asp-for="TypesMessageId" class="form-control" asp-items="ViewBag.TypesMessageId"></select>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1> الرسائل </h1>
             </div>
-            <div class="form-group">
-                <label asp-for="WjhaaMessageId" class="control-label"></label>
-                <select asp-for="WjhaaMessageId" class="form-control" asp-items="ViewBag.WjhaaMessageId"></select>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-left">
+                    <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
+                    <li class="breadcrumb-item "><a asp-controller="MessageSends" asp-action="Index">الرسائل</a></li>
+                    <li class="breadcrumb-item active">اضافة رسالة </li>
+
+                </ol>
             </div>
-            <div class="form-group">
-                <label asp-for="CountryId" class="control-label"></label>
-                <input asp-for="CountryId" class="form-control">
-            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                <i class="fas fa-plus"></i>
+                اضافة رسالة
+            </h3>
+
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div class="form-group">
+                    <label asp-for="CountryId" class="control-label"></label>
+                    <input hidden asp-for="CountryId" class="form-control">
+                    <input readonly asp-for="CountryName" class="form-control">
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="TypesMessageId" class="control-label"></label>
+                    <select asp-for="TypesMessageId" class="form-control" asp-items="ViewBag.TypesMessageId"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="WjhaaMessageId" class="control-label"></label>
+                    <select asp-for="WjhaaMessageId" class="form-control" asp-items="ViewBag.WjhaaMessageId"></select>
+                </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+                <div class="form-group">
+                    <input type="submit" value="حفظ" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+        <!-- /.card-body -->
+        <!-- /.card-footer-->
     </div>
-</div>
+    <!-- /.card -->
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+</section>
+<!-- /.content -->
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -458,7 +458,9 @@ namespace maealim.Data.Repositories
 
         public async Task<TypesMessage> GetTypesMessage(int id)
         {
-            return await _context.TypesMessages.SingleOrDefaultAsync(t=>t.Id==id);
+            return await _context.TypesMessages
+               
+                .SingleOrDefaultAsync(t=>t.Id==id);
         }
 
         public async Task<IEnumerable<WjhaaMessage>> GetWjhaaMessages()
@@ -477,6 +479,78 @@ namespace maealim.Data.Repositories
                 .Include(f => f.Country)
                 .Include(f => f.TypesMessage)
                 .SingleOrDefaultAsync(m=>m.Id==id);
+        }
+
+        public async Task<IEnumerable<Notable>> GetNotablesByCountry(int countryId)
+        {
+            return await _context.Notables
+                .Where(d => d.CountryId == countryId && d.GuestReservation.Status==1)
+                .ToListAsync();
+        }
+
+        public async Task<int> CountMessagesSentsToCountry(int countryId)
+        {
+            var count = await _context.MessageSends
+                .Where(m => m.Notable.CountryId == countryId).ToListAsync();
+            return count.Count();
+        }
+
+        public async Task<IEnumerable<Attend>> GetAttends()
+        {
+            return await _context.Attends
+                .Include(d=>d.AppUser)
+                .Include(d=>d.Employee)
+                .Include(d=>d.EmployeeContract)
+                .Include(d=>d.Guide)
+                .Include(d=>d.GuideContract)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Attend>> GetGuideAttends()
+        {
+            return await _context.Attends
+                .Include(d => d.AppUser)
+                .Include(d => d.Employee)
+                .Include(d => d.EmployeeContract)
+                .Include(d => d.Guide)
+                .Include(d => d.GuideContract)
+                .Where(e=>e.EmployeeId.HasValue)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Attend>> GetEmployeeAttends()
+        {
+            return await _context.Attends
+                .Include(d => d.AppUser)
+                .Include(d => d.Employee)
+                .Include(d => d.EmployeeContract)
+                .Include(d => d.Guide)
+                .Include(d => d.GuideContract)
+                .Where(e => e.EmployeeId.HasValue)
+                .ToListAsync();
+        }
+
+        public async Task<Attend> GetAttend(int id)
+        {
+            return await _context.Attends
+               .Include(d => d.AppUser)
+               .Include(d => d.Employee)
+               .Include(d => d.EmployeeContract)
+               .Include(d => d.Guide)
+               .Include(d => d.GuideContract)
+               .SingleOrDefaultAsync(f=>f.Id.Equals(id));
+        }
+
+        public async Task<IEnumerable<Employee>> GetEmployeeContractActive()
+        {
+            return await _context.Employees
+                .Where(e => e.EmployeeContracts.Any(s=>s.Status)).ToListAsync();
+        }
+
+        public async Task<EmployeeContract> GetEmployeeContractByEmpId(int employeeId)
+        {
+            return await _context.EmployeeContracts
+                .FirstOrDefaultAsync(d=>d.EmployeeId==employeeId && d.Status);
         }
     }
 }

@@ -41,5 +41,6 @@ namespace maealim.Models
         public AppUser User { get; set; }
 
         public IEnumerable<EmployeeContract> EmployeeContracts { get; set; }
+        public IEnumerable<Attend> Attends { get; set; }
     }
 }

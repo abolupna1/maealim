@@ -44,6 +44,7 @@ namespace maealim.Data.Repositories
         Task<Specialization> GetSpecialization(int id);
         Task<IEnumerable<EmployeeContract>> GetEmployeeContracts();
         Task<EmployeeContract> GetEmployeeContract(int id);
+        Task<EmployeeContract> GetEmployeeContractByEmpId(int employeeId);
 
         Task<bool> IsEemployeeHasContractActive(int employeeId);
         Task<bool> IsEemployeeHasContractActive(int id,int employeeId);
@@ -88,7 +89,7 @@ namespace maealim.Data.Repositories
         Task<IEnumerable<Notable>> GetNotables();
         Task<IEnumerable<Notable>> GetJobNotablesNormal(int guestReservationId);
         Task<IEnumerable<Notable>> GetJobNotablesNotNormal(int guestReservationId);
-
+        Task<IEnumerable<Notable>> GetNotablesByCountry(int countryId);
         Task<Notable> GetNotable(int id);
 
         Task<IEnumerable<Gift>> GetGiftsByGuestReservationId(int guestReservationId);
@@ -100,6 +101,16 @@ namespace maealim.Data.Repositories
 
         Task<IEnumerable<WjhaaMessage>> GetWjhaaMessages();
         Task<WjhaaMessage> GetWjhaaMessage(int id);
+        Task<int> CountMessagesSentsToCountry(int countryId);
+
+
+        Task<IEnumerable<Attend>> GetAttends();
+        Task<IEnumerable<Attend>> GetEmployeeAttends();
+        Task<IEnumerable<Attend>> GetGuideAttends();
+        Task<Attend> GetAttend(int id);
+        Task<IEnumerable<Employee>> GetEmployeeContractActive();
+
+
         
 
     }

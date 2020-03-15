@@ -1,4 +1,4 @@
-﻿@model IEnumerable<maealim.Models.Country>
+﻿@model IEnumerable<maealim.ModelViews.MessageSends.CountryMessages>
 
 @{
     ViewData["Title"] = " الرسائل ";
@@ -37,17 +37,19 @@
             
         </div>
         <div class="card-body">
+            <partial name="_StatusMessages" />
             <div class="table-responsive">
                 <table class="table tab-content table-striped table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Name)
+                                @Html.DisplayNameFor(model => model.CountryName)
                             </th>
                             <th>
                                 الرسائل المرسلة
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,37 +59,36 @@
 
                             @foreach (var item in Model)
                             {
-                        <tr>
-                            <th>@i</th>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @{var mesages = item.Notables.Where(b => b.CountryId == item.Id);}
-                                @mesages.Where(g=>g.MessageSends.Any()).Count()
-                               
-                            </td>
+                                <tr>
+                                    <th>@i</th>
+                                    <td>
+                                        @item.CountryName
+                                    </td>
+                                    <td>
+                                      
+                                        @item.MesagesSentCount
+                                    </td>
 
 
-                            <td>
-                                <div class="btn-group">
-                                    <a asp-action="Create" asp-route-countryId="@item.Id" class="btn  btn-primary  btn-sm text-white float-left m-0">
-                                        <i class="fas fa-plus-circle"></i>
-                                        اضافة رسالة
-                                    </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="Create" asp-route-countryId="@item.CountryId" class="btn  btn-primary  btn-sm text-white float-left m-0">
+                                                <i class="fas fa-plus-circle"></i>
+                                                اضافة رسالة
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@item.CountryId" type="button" class="btn btn-success ml-1">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
                                 i++;
                             }
                         }
                         else
                         {
                             <tr class="text-center">
-                                <td colspan="3">لاتوجد بيانات</td>
+                                <td colspan="4">لاتوجد بيانات</td>
                             </tr>
                         }
                     </tbody>

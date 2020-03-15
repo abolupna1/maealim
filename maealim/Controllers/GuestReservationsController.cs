@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using maealim.Data.Repositories;
 using System.Security.Claims;
 using maealim.Extensions.Alerts;
+using AutoMapper;
+using maealim.ModelViews.GuestReservations;
 
 namespace maealim.Controllers
 {
@@ -19,10 +21,12 @@ namespace maealim.Controllers
     public class GuestReservationsController : Controller
     {
         private readonly IMaealimRepository _repository;
+        private readonly IMapper _mapper;
 
-        public GuestReservationsController(IMaealimRepository repository)
+        public GuestReservationsController(IMaealimRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -130,7 +134,7 @@ namespace maealim.Controllers
             ViewData["SheikhId"] = new SelectList(await _repository.GetSheikhs(), "Id", "Name", guestReservation.SheikhId);
             return View(guestReservation);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Delete/{id:int}")]
@@ -163,6 +167,64 @@ namespace maealim.Controllers
         }
 
 
+        [Route("AddEditShikh/{id:int}")]
+        public async Task<IActionResult> AddEditShikh(int id)
+        {
+
+
+            var guestReservation = await _repository.GetGuestReservation(id);
+            if (guestReservation == null)
+            {
+                ViewBag.ErrorMessage = "لايوجد   بيانات";
+                return View("NotFound");
+            }
+            ViewData["SheikhId"] = new SelectList(await _repository.GetSheikhs(), "Id", "Name", guestReservation.SheikhId);
+            var map = _mapper.Map<AddEditShikh>(guestReservation);
+            return View(map);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("AddEditShikh/{id:int}")]
+        public async Task<IActionResult> AddEditShikh(int id, AddEditShikh guestReservation)
+        {
+            if (id != guestReservation.Id)
+            {
+                ViewBag.ErrorMessage = "لايوجد   بيانات";
+                return View("NotFound");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var guest = await _repository.GetGuestReservation(guestReservation.Id);
+                    guest.SessionNo = guestReservation.SessionNo;
+                    guest.SheikhId = guestReservation.SheikhId;
+                    guest.Status =1;
+                    _repository.Update<GuestReservation>(guest);
+                    await _repository.SavaAll();
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_repository.GetBank(guestReservation.Id) == null)
+                    {
+                        ViewBag.ErrorMessage = "لايوجد   بيانات";
+                        return View("NotFound");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("NotablesByReservation", "Notables",new { guestReservationId=id }).WithSuccess("success","تمت الاضافة بنجاح");
+            }
+
+            ViewData["SheikhId"] = new SelectList(await _repository.GetSheikhs(), "Id", "Name", guestReservation.SheikhId);
+            return View(guestReservation);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

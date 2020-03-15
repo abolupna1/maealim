@@ -30,6 +30,7 @@ namespace maealim.Models
         [Display(Name = "الاسم"), Required(ErrorMessage = "{0} مطلوب")]
         public string Name  { get; set; }
 
+        [EmailAddress(ErrorMessage = "{0} يجب ان يكون صالح")]
         [Display(Name = "الايميل"), Required(ErrorMessage = "{0} مطلوب")]
         public string Email  { get; set; }
 

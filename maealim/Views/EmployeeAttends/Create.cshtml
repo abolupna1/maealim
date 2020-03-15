@@ -1,9 +1,10 @@
-﻿@model maealim.Models.GuestReservation
+﻿@model maealim.ModelViews.EmployeeAttends.EmployeeAttendCMV
 
 @{
-    ViewData["Title"] = " اضافة ";
+    ViewData["Title"] = "اضافة";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 
 <!-- Content Header (Page header) -->
@@ -11,13 +12,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1> الحجوزات </h1>
+                <h1>تحضير الموظفين</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-left">
                     <li class="breadcrumb-item "><a asp-controller="Home" asp-action="Index">الرئيسية</a></li>
-                    <li class="breadcrumb-item "><a asp-controller="GuestReservations" asp-action="Index">الحجوزات</a></li>
-                    <li class="breadcrumb-item active">اضافة حجز </li>
+                    <li class="breadcrumb-item "><a asp-controller="Jops" asp-action="Index"> الوظائف </a></li>
+                    <li class="breadcrumb-item active">      اضافة تحضير موظف </li>
 
                 </ol>
             </div>
@@ -32,42 +33,42 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">
-                <i class="fas fa-plus"></i>
-                اضافة حجز
+                <i class="fas fa-plus-circle"></i>
+                اضافة تحضير موظف
             </h3>
 
         </div>
         <div class="card-body">
-            <form asp-action="">
 
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="MGuideId" class="control-label"></label>
-                    <select asp-for="MGuideId" class="form-control" asp-items="ViewBag.MGuideId">
+                    <label asp-for="AttendDate " class="control-label"></label>
+                    <input type="text" asp-for="AttendDate" class="form-control" />
+                    <span asp-validation-for="AttendDate" class="text-danger"></span>
+                </div>
+                <div class="form-group ">
+                    <label asp-for="EmployeeId" class="control-label"></label>
+                    <select asp-for="EmployeeId" class="form-control"
+                            asp-items="ViewBag.EmployeeId">
                         <option value="">الرجاء الإختيار</option>
                     </select>
-
+                    <span asp-validation-for="EmployeeId" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="ReservationDate" class="control-label"></label>
-                    <input asp-for="ReservationDate" type="text" class="form-control" />
-                    <span asp-validation-for="ReservationDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Duration" class="control-label"></label>
-                    <select asp-for="Duration" class="form-control" >
+                <div class="form-group ">
+                    <label asp-for="TheWork" class="control-label"></label>
+                    <select asp-for="TheWork" class="form-control" asp-items="ViewBag.TheWork">
                         <option value="">الرجاء الإختيار</option>
-                        <option value="العصر">العصر</option>
-                        <option value="المغرب">المغرب</option>
-                        <option value="العشاء">العشاء</option>
+                     
                     </select>
-                    <span asp-validation-for="Duration" class="text-danger"></span>
+                    <span asp-validation-for="TheWork" class="text-danger"></span>
                 </div>
-
-          
                 <div class="form-group">
                     <input type="submit" value="حفظ" class="btn btn-primary" />
                 </div>
             </form>
+
         </div>
 
         <!-- /.card-body -->
@@ -78,15 +79,20 @@
 </section>
 <!-- /.content -->
 
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
 
               $(function() {
-               $("#ReservationDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
+               $("#AttendDate").datepicker({ dateFormat: "yy-mm-dd" }).val()
        });
         });
     </script>
 }
+
+
+
 

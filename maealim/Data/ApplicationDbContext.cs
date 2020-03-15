@@ -74,6 +74,7 @@ namespace maealim.Data
         public DbSet<TypesMessage> TypesMessages { get; set; }
         public DbSet<WjhaaMessage> WjhaaMessages { get; set; }
         public DbSet<MessageSend> MessageSends { get; set; }
+        public DbSet<Attend> Attends { get; set; }
 
 
 

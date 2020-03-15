@@ -81,7 +81,7 @@
                                         @Html.DisplayFor(modelItem => item.MGuide.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Sheikh.Mobile)
+                                        @Html.DisplayFor(modelItem => item.Sheikh.Name)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ReservationDate)
@@ -136,47 +136,54 @@
                                             }
                                             @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
                                             {
-                                                <form asp-action="ConfirmReservation" asp-route-id="@item.Id">
+                                                @if (item.Status == null || item.Status == 0)
+                                                {
 
-                                                    <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
-                                                        <span class="mr-2">هل  تريد تاكيد الحجز ؟</span>
-                                                        <button type="submit" class="btn btn-danger">نعم</button>
-                                                        <a class="btn btn-primary text-white ml-3"
-                                                           onclick="confirmDelete('c_@item.Id', false)">لا</a>
-                                                    </span>
-                                                    <span id="deleteSpan_c_@item.Id">
-                                                        <a class="btn btn-info text-white mr-1" title="  تاكيد الحجز"
-                                                           onclick="confirmDelete('c_@item.Id', true)">
-                                                            <i class="fas fa-check-circle"></i>
-                                                        </a>
-                                                    </span>
-                                                </form>
 
-                                                <form asp-action="CancelReservation" asp-route-id="@item.Id">
+                                                    <form asp-action="ConfirmReservation" asp-route-id="@item.Id">
 
-                                                    <span id="confirmDeleteSpan_cancel_@item.Id" style="display:none">
-                                                        <span class="mr-2">هل تريد الغاء الحجز ؟</span>
-                                                        <button type="submit" class="btn btn-danger">نعم</button>
-                                                        <a class="btn btn-primary text-white ml-3"
-                                                           onclick="confirmDelete('cancel_@item.Id', false)">لا</a>
-                                                    </span>
-                                                    <span id="deleteSpan_cancel_@item.Id">
-                                                        <a class="btn btn-warning text-white mr-1" title="الغاء الحجز"
-                                                           onclick="confirmDelete('cancel_@item.Id', true)">
-                                                            <i class="fas fa-ban"></i>
-                                                        </a>
-                                                    </span>
-                                                </form>
-                                            }
+                                                        <span id="confirmDeleteSpan_c_@item.Id" style="display:none">
+                                                            <span class="mr-2">هل  تريد تاكيد الحجز ؟</span>
+                                                            <button type="submit" class="btn btn-danger">نعم</button>
+                                                            <a class="btn btn-primary text-white ml-3"
+                                                               onclick="confirmDelete('c_@item.Id', false)">لا</a>
+                                                        </span>
+                                                        <span id="deleteSpan_c_@item.Id">
+                                                            <a class="btn btn-info text-white mr-1" title="  تاكيد الحجز"
+                                                               onclick="confirmDelete('c_@item.Id', true)">
+                                                                <i class="fas fa-check-circle"></i>
+                                                            </a>
+                                                        </span>
+                                                    </form>
+                                                }
+                                                @if (item.Status == null || item.Status == 2)
+                                                {
+                                                    <form asp-action="CancelReservation" asp-route-id="@item.Id">
 
-                                            @if (item.Status != 0)
-                                            {
-                                                <a asp-action="NotablesByReservation" asp-controller="Notables" title=" الوجهاء" asp-route-guestReservationId="@item.Id" type="button" class="btn btn-success mr-1">
-                                                    <i class="fas fa-user-friends"></i>
-                                                </a>
-                                            }
+                                                        <span id="confirmDeleteSpan_cancel_@item.Id" style="display:none">
+                                                            <span class="mr-2">هل تريد الغاء الحجز ؟</span>
+                                                            <button type="submit" class="btn btn-danger">نعم</button>
+                                                            <a class="btn btn-primary text-white ml-3"
+                                                               onclick="confirmDelete('cancel_@item.Id', false)">لا</a>
+                                                        </span>
+                                                        <span id="deleteSpan_cancel_@item.Id">
+                                                            <a class="btn btn-warning text-white mr-1" title="الغاء الحجز"
+                                                               onclick="confirmDelete('cancel_@item.Id', true)">
+                                                                <i class="fas fa-ban"></i>
+                                                            </a>
+                                                        </span>
+                                                    </form>
+                                                    }
+                                                }
 
-                                        </div>
+                                                @if (item.Status != 0)
+                                                {
+                                                    <a asp-action="NotablesByReservation" asp-controller="Notables" title=" الوجهاء" asp-route-guestReservationId="@item.Id" type="button" class="btn btn-success mr-1">
+                                                        <i class="fas fa-user-friends"></i>
+                                                    </a>
+                                                }
+
+                                            </div>
                                     </td>
                                 </tr>
                                 i++;

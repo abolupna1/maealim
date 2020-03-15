@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using maealim.Models;
+using maealim.ModelViews.EmployeeAttends;
+using maealim.ModelViews.GuestReservations;
+using maealim.ModelViews.MessageSends;
 using maealim.ModelViews.WorkSeasons;
 using System;
 using System.Collections.Generic;
@@ -13,7 +16,10 @@ namespace maealim.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<WorkSeason, WorkSeasonEMV>().ReverseMap();
-         
+            CreateMap<MessageSend, MessageSendCMV>().ReverseMap();
+            CreateMap<GuestReservation, AddEditShikh>().ReverseMap();
+            CreateMap<Attend, EmployeeAttendCMV>().ReverseMap();
+
 
         }
     }

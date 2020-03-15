@@ -39,7 +39,7 @@
                 <i class="fas fa-list-alt"></i>
                 الوجهاء
             </h3>
-            @if (Model.Status != 1)
+            @if (Model.Status == 2)
             {
                 <a asp-action="Create" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left m-0">
                     <i class="fas fa-plus-circle"></i>
@@ -50,40 +50,33 @@
             @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
             {
 
+                if (Model.Status == 1)
+                {
 
-                if (!Model.Gifts.Any())
+              
+                if ( Model.Notables.Any() && !Model.Gifts.Any())
                 {
                     <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
                         <i class="fas fa-plus-circle"></i>
                         الهداية
                     </a>
                 }
-                else
+                if ( Model.Notables.Any() && Model.Gifts.Any() )
                 {
                     <a asp-action="Create" asp-controller="Gifts" asp-route-guestReservationId="@guestReservationId" class="btn  btn-primary  btn-sm text-white float-left ml-2">
                         <i class="fas fa-edit"></i>
                         الهداية
                     </a>
                 }
-                @if (Model.Status != 1)
-                {
-                    <form asp-action="WasAttendance" asp-controller="GuestReservations" class="float-left ml-1" asp-route-id="@guestReservationId">
-
-                        <span id="confirmDeleteSpan_c_@guestReservationId" style="display:none">
-                            <span class="mr-2">هل  تم الحضور ؟</span>
-                            <button type="submit" class="btn btn-sm btn-danger">نعم</button>
-                            <a class="btn btn-primary text-white ml-3 btn-sm"
-                               onclick="confirmDelete('c_@guestReservationId', false)">لا</a>
-                        </span>
-                        <span id="deleteSpan_c_@guestReservationId">
-                            <a class="btn btn-info text-white mr-1 btn-sm" title="  هل  تم الحضور ؟"
-                               onclick="confirmDelete('c_@guestReservationId', true)">
-                                <i class="fas fa-check-circle"></i>
-                                الحضور ؟
-                            </a>
-                        </span>
-                    </form>
-                }
+  }
+            
+            @if (Model.Status != 1 && Model.Status == 2 && Model.Notables.Any())
+            {
+                <a asp-controller="GuestReservations" asp-action="AddEditShikh" title="الشيخ" asp-route-id="@Model.Id" type="button" class="btn btn-success btn-sm float-left ml-1">
+                    <i class="fas fa-user-circle"></i>
+                    الشيخ
+                </a>
+            }
 
             }
         </div>
@@ -153,11 +146,12 @@
                                 @if (User.IsInRole("Admin") || User.IsInRole("ProgramsSupervisor"))
                                 {
 
-                                    <div class="btn-group">
-                                        <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-success ml-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    @if (Model.Status!=1)
+                                    {
                                         <form asp-action="Delete" asp-route-id="@item.Id">
                                             <span id="confirmDeleteSpan_@item.Id" style="display:none">
                                                 <span>هل تريد الحذف ؟</span>
@@ -172,7 +166,9 @@
                                                 </a>
                                             </span>
                                         </form>
-                                    </div>
+                                    }
+
+                                </div>
 
                                 }
                                 else

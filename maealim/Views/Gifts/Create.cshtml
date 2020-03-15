@@ -50,6 +50,9 @@
                 <h6 class="col-md-6 text-muted"><strong>عدد الوجهاء النوعيين</strong> ( @notableNotNormal ) </h6>
                 <h6 class="col-md-6 text-muted"><strong>عدد الوجهاء العاديين</strong> ( @notableNormal ) </h6>
             </div>
+         
+
+           
             <form asp-action="Create">
                 <table class="table">
                     <thead>
@@ -62,49 +65,59 @@
                         </tr>
                     </thead>
                     <tbody>
-
-                        @for (int i = 0; i < gifts.Count(); i++)
+                        @if (notableNotNormal > 0 || notableNormal > 0)
                         {
+                            @for (int i = 0; i < gifts.Count(); i++)
+                            {
 
 
-                            <tr>
-                                <td hidden><input asp-for="@Model[i].GuestReservationId" value="@guestReservationId" class="form-control" /></td>
-                                <td>@j</td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="hidden" asp-for="@Model[i].ItemOfProductId" value="@gifts.ToList()[i].Id" class="form-control" />
-                                        <input type="text" readonly name="show" value="@gifts.ToList()[i].Name" class="form-control" />
-                                        <span asp-validation-for="@Model[i].ItemOfProductId" class="text-danger"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="text" asp-for="@Model[i].Qty" class="form-control" />
-                                        <span asp-validation-for="@Model[i].Qty" class="text-danger"></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <input asp-for="@Model[i].Notce" class="form-control" />
-                                        <span asp-validation-for="@Model[i].Notce" class="text-danger"></span>
-                                    </div>
-                                </td>
-                            </tr>
-                            j++;
+                                <tr>
+                                    <td hidden><input asp-for="@Model[i].GuestReservationId" value="@guestReservationId" class="form-control" /></td>
+                                    <td>@j</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="hidden" asp-for="@Model[i].ItemOfProductId" value="@gifts.ToList()[i].Id" class="form-control" />
+                                            <input type="text" readonly name="show" value="@gifts.ToList()[i].Name" class="form-control" />
+                                            <span asp-validation-for="@Model[i].ItemOfProductId" class="text-danger"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" asp-for="@Model[i].Qty" class="form-control" />
+                                            <span asp-validation-for="@Model[i].Qty" class="text-danger"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input asp-for="@Model[i].Notce" class="form-control" />
+                                            <span asp-validation-for="@Model[i].Notce" class="text-danger"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                j++;
+                            }
                         }
-
+                        else
+                        {
+                            <tr class="text-center">
+                                <td colspan="4">لم يتم تسجيل وجهاء حتى الان </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
 
+                @if (notableNotNormal > 0 || notableNormal > 0)
+                {
+                    <div class="form-group">
+                        <input type="submit" value="حفظ" class="btn btn-primary" />
+                    </div>
+                    
+                }
+                </form>
 
-                <div class="form-group">
-                    <input type="submit" value="حفظ" class="btn btn-primary" />
-                </div>
-            </form>
 
 
-
-
+         
 
 
 
