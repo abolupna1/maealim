@@ -7,24 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using maealim.Data;
 using maealim.Models;
+using Microsoft.AspNetCore.Authorization;
 using maealim.Data.Repositories;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using maealim.ModelViews.EmployeeAttends;
 using maealim.Helpers;
-using maealim.Extensions.Alerts;
+using maealim.ModelViews.GuidesAttends;
 using System.Security.Claims;
+using maealim.Extensions.Alerts;
 
 namespace maealim.Controllers
 {
-    [Route("EmployeeAttends")]
+    [Route("GuidesAttends")]
     [Authorize(Roles = "Admin,ProgramsSupervisor")]
-    public class EmployeeAttendsController : Controller
+    public class GuidesAttendsController : Controller
     {
         private readonly IMaealimRepository _repository;
         private readonly IMapper _mapper;
 
-        public EmployeeAttendsController(IMaealimRepository repository, IMapper mapper)
+        public GuidesAttendsController(IMaealimRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -32,14 +32,14 @@ namespace maealim.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _repository.GetEmployeeAttends());
+            return View(await _repository.GetGuideAttends());
         }
 
 
         [Route("Create")]
         public async Task<IActionResult> Create()
         {
-            ViewData["EmployeeId"] = new SelectList(await _repository.GetEmployeeContractActive(),"Id", "Name");
+            ViewData["GuideId"] = new SelectList(await _repository.GetGuideContractActive(), "Id", "Name");
             ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork");
             //انشاء موديل فيو 
             return View();
@@ -58,21 +58,26 @@ namespace maealim.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Create")]
-        public async Task<IActionResult> Create(EmployeeAttendCMV employeeAttendCMV)
+        public async Task<IActionResult> Create(GuidesAttendsCMV guidesAttendsCMV)
         {
             if (ModelState.IsValid)
             {
-                var attend = _mapper.Map<Attend>(employeeAttendCMV);
-              var contract = await _repository.GetEmployeeContractByEmpId(employeeAttendCMV.EmployeeId);
-                attend.EmployeeContractId = contract.Id;
-                attend.WorkingHours = contract.DailyWorkingHours;
-                attend.AppUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                var contract = await _repository.GetGuideContractByGuideId(guidesAttendsCMV.GuideId);
+                var attend = new Attend()
+                {
+                    AppUserId= int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),
+                    GuideContractId= contract.Id,
+                    TheWork= guidesAttendsCMV.TheWork,
+                    WorkingHours= contract.DailyWorkingHours,
+                    GuideId=guidesAttendsCMV.GuideId,
+                    AttendDate=guidesAttendsCMV.AttendDate
+                };
                 _repository.Add<Attend>(attend);
                 await _repository.SavaAll();
-                return RedirectToAction(nameof(Index)).WithSuccess("success","تم الحفظ بنجاح");
+                return RedirectToAction(nameof(Index)).WithSuccess("success", "تم الحفظ بنجاح");
             }
-            ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork", employeeAttendCMV.TheWork);
-            ViewData["EmployeeId"] = new SelectList(await _repository.GetEmployeeContractActive(), "Id", "Name",employeeAttendCMV.EmployeeId);
+            ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork", guidesAttendsCMV.TheWork);
+            ViewData["EmployeeId"] = new SelectList(await _repository.GetGuideContractActive(), "Id", "Name", guidesAttendsCMV.GuideId);
             return View();
         }
 
@@ -85,19 +90,19 @@ namespace maealim.Controllers
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
             }
-            var employeeAttendCMV = _mapper.Map<EmployeeAttendCMV>(attend);
+            var guideAttendCMV = _mapper.Map<GuidesAttendsCMV>(attend);
             ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork", attend.TheWork);
-            ViewData["EmployeeId"] = new SelectList(await _repository.GetEmployeeContractActive(), "Id", "Name", attend.EmployeeId);
-            return View(employeeAttendCMV);
+            ViewData["GuideId"] = new SelectList(await _repository.GetGuideContractActive(), "Id", "Name", attend.GuideId);
+            return View(guideAttendCMV);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Edit/{id:int}")]
-        public async Task<IActionResult> Edit(int id, EmployeeAttendCMV employeeAttendCMV)
+        public async Task<IActionResult> Edit(int id, GuidesAttendsCMV guidesAttendsCMV)
         {
-            if (id != employeeAttendCMV.Id)
+            if (id != guidesAttendsCMV.Id)
             {
                 ViewBag.ErrorMessage = "لايوجد   بيانات";
                 return View("NotFound");
@@ -108,14 +113,14 @@ namespace maealim.Controllers
                 try
                 {
                     var attend = await _repository.GetAttend(id);
-                    var attendUpdate = _mapper.Map<EmployeeAttendCMV,Attend>(employeeAttendCMV, attend);
+                    var attendUpdate = _mapper.Map<GuidesAttendsCMV, Attend>(guidesAttendsCMV, attend);
                     _repository.Update<Attend>(attendUpdate);
                     await _repository.SavaAll();
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (_repository.GetAttend(employeeAttendCMV.Id) == null)
+                    if (_repository.GetAttend(guidesAttendsCMV.Id) == null)
                     {
                         ViewBag.ErrorMessage = "لايوجد   بيانات";
                         return View("NotFound");
@@ -129,9 +134,9 @@ namespace maealim.Controllers
 
             }
 
-            ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork", employeeAttendCMV.TheWork);
-            ViewData["EmployeeId"] = new SelectList(await _repository.GetEmployeeContractActive(), "Id", "Name", employeeAttendCMV.EmployeeId);
-            return View(employeeAttendCMV);
+            ViewData["TheWork"] = new SelectList(TheWorName(), "ThWork", "ThWork", guidesAttendsCMV.TheWork);
+            ViewData["EmployeeId"] = new SelectList(await _repository.GetGuideContractActive(), "Id", "Name", guidesAttendsCMV.GuideId);
+            return View(guidesAttendsCMV);
         }
 
         [HttpPost]
@@ -162,7 +167,7 @@ namespace maealim.Controllers
 
             }
 
-            return RedirectToAction(nameof(Index)).WithSuccess("success", "تم الحفظ بنجاح");
+            return RedirectToAction(nameof(Index)).WithSuccess("success", "تم الحذف بنجاح");
 
         }
 

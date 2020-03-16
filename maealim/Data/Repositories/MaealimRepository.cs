@@ -514,7 +514,7 @@ namespace maealim.Data.Repositories
                 .Include(d => d.EmployeeContract)
                 .Include(d => d.Guide)
                 .Include(d => d.GuideContract)
-                .Where(e=>e.EmployeeId.HasValue)
+                .Where(e=>e.GuideId.HasValue)
                 .ToListAsync();
         }
 
@@ -551,6 +551,24 @@ namespace maealim.Data.Repositories
         {
             return await _context.EmployeeContracts
                 .FirstOrDefaultAsync(d=>d.EmployeeId==employeeId && d.Status);
+        }
+
+        public async Task<GuideContract> GetGuideContractByGuideId(int guideId)
+        {
+            return await _context.GuideContracts
+               .FirstOrDefaultAsync(d => d.GuideId == guideId && d.Status);
+        }
+
+        public async Task<IEnumerable<MGuide>> GetGuideContractActive()
+        {
+            return await _context.MGuides
+              .Where(e => e.GuideContracts.Any(s => s.Status)).ToListAsync();
+        }
+
+        public async Task<bool> GetCheckGuidHaveWorkInTheDay(int guideId, DateTime date)
+        {
+            return await _context.Attends.AnyAsync(d=>d.GuideId==guideId
+            &&d.AttendDate.ToString("dd-MM-yyyy")==date.ToString("dd-MM-yyyy"));
         }
     }
 }

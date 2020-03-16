@@ -56,6 +56,7 @@ namespace maealim.Data.Repositories
         Task<GuideContract> GetGuideContract(int id);
         Task<bool> IsGuideHasContractActive( int guideId);
         Task<bool> IsGuideHasContractActive(int id, int guideId);
+        Task<GuideContract> GetGuideContractByGuideId(int guideId);
 
 
         Task<IEnumerable<TypeOfProduct>> GetTypeOfProducts();
@@ -83,7 +84,8 @@ namespace maealim.Data.Repositories
         Task<IEnumerable<GuestReservation>> GetGuestReservations();
         Task<IEnumerable<GuestReservation>> GetGuestReservationsByGuideId(int guideId);
         Task<GuestReservation> GetGuestReservation(int id);
-        
+        Task<bool> GetCheckGuidHaveWorkInTheDay(int guideId,DateTime date);
+
 
 
         Task<IEnumerable<Notable>> GetNotables();
@@ -109,9 +111,13 @@ namespace maealim.Data.Repositories
         Task<IEnumerable<Attend>> GetGuideAttends();
         Task<Attend> GetAttend(int id);
         Task<IEnumerable<Employee>> GetEmployeeContractActive();
+        Task<IEnumerable<MGuide>> GetGuideContractActive();
 
 
         
+
+
+
 
     }
 }

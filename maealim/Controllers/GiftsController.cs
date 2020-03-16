@@ -10,6 +10,7 @@ using maealim.Models;
 using Microsoft.AspNetCore.Authorization;
 using maealim.Data.Repositories;
 using maealim.Extensions.Alerts;
+using System.Security.Claims;
 
 namespace maealim.Controllers
 {
@@ -64,10 +65,24 @@ namespace maealim.Controllers
                 foreach (var gift in gifts)
                 {
                     _repository.Add<Gift>(gift);
-
-
                 }
                 await _repository.SavaAll();
+                var guest = await _repository.GetGuestReservation(guestReservationId) ;
+                if(!await _repository.GetCheckGuidHaveWorkInTheDay(guest.MGuideId.Value, guest.ReservationDate))
+                {
+                    var contract = await _repository.GetGuideContractByGuideId(guest.MGuideId.Value);
+                    var attend = new Attend()
+                    {
+                       
+                        GuideContractId = contract.Id,
+                        TheWork = "وجهاء",
+                        WorkingHours = contract.DailyWorkingHours,
+                        GuideId = guest.MGuideId.Value,
+                        AttendDate = guest.ReservationDate
+                    };
+                    _repository.Add<Attend>(attend);
+                    await _repository.SavaAll();
+                }
                 return RedirectToAction("NotablesByReservation", "Notables",
                 new { guestReservationId = guestReservationId }).WithSuccess("success","تم الحفظ بنجاخ");
             }

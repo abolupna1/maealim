@@ -22,10 +22,37 @@ namespace maealim.Data
             string ProgramsSupervisorAr = "مشرف البرامج";
             string roleGuide = "RoleGuide";
             string roleGuideAr = "مرشد";
+            string roleNotable = "RoleNotable";
+            string roleNotableAr = "الوجهاء";
+            string roleSheikh = "RoleSheikh";
+            string roleSheikhAr = "الشيخ";
+            string roleMaealim = "RoleMaealim";
+            string roleMaealimAr = "المعالم";
+
 
             if (await roleManager.FindByNameAsync(roleAdmin) == null)
             {
                 var resault = await roleManager.CreateAsync(new AppRole(roleAdmin, roleAdminAr));
+            }
+
+            if (await roleManager.FindByNameAsync(roleNotable) == null)
+            {
+                var resault = await roleManager.CreateAsync(new AppRole(roleNotable, roleNotableAr));
+            }
+
+            if (await roleManager.FindByNameAsync(roleMaealim) == null)
+            {
+                var resault = await roleManager.CreateAsync(new AppRole(roleMaealim, roleMaealimAr));
+            }
+
+
+            if (await roleManager.FindByNameAsync(roleSheikh) == null)
+            {
+                var resault = await roleManager.CreateAsync(new AppRole(roleSheikh, roleSheikhAr));
+            }
+            if (await roleManager.FindByNameAsync(roleNotable) == null)
+            {
+                var resault = await roleManager.CreateAsync(new AppRole(roleNotable, roleAdminAr));
             }
 
             if (await roleManager.FindByNameAsync(ProgramsSupervisor) == null)

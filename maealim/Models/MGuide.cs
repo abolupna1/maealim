@@ -73,6 +73,7 @@ namespace maealim.Models
         public IEnumerable<Notable> Notables { get; set; }
         public IEnumerable<WjhaaMessage> WjhaaMessage { get; set; }
         public IEnumerable<Attend> Attends { get; set; }
+        public IEnumerable<GuideContract> GuideContracts { get; set; }
 
 
     }

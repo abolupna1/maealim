@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace maealim.ModelViews.EmployeeAttends
+namespace maealim.ModelViews.GuidesAttends
 {
-    public class EmployeeAttendCMV
+    public class GuidesAttendsCMV
     {
         public int Id { get; set; }
 
-        [Display(Name = "الموظف"), Required(ErrorMessage = "{0} مطلوب")]
-        public int EmployeeId { get; set; }
-     
+        [Display(Name = "المرشد"), Required(ErrorMessage = "{0} مطلوب")]
+        public int GuideId { get; set; }
+
         [Display(Name = "التاريخ"), Required(ErrorMessage = "{0} مطلوب"),
 DataType(DataType.Date, ErrorMessage = "المدخل يجب ان يكون تاريخ"),
 DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -20,9 +20,6 @@ DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)
 
         [Display(Name = "العمل"), Required(ErrorMessage = "{0} مطلوب")]
         public string TheWork { get; set; }
-
-
-
 
     }
 }
